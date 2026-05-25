@@ -1,0 +1,1307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TradeMark Africa — Trade that changes lives</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* TMA v3 — "Editorial Bento" rebuild.
+   Top nav like v1/v2, BUT layouts arranged differently:
+   - Bento mosaic homepage (mixed-aspect tiles, not stacked sections)
+   - Press: vertical reel timeline with centre spine
+   - Tenders: status-coloured card deck
+   - Careers: department-coloured zones
+   - Senior management: org pyramid
+   - About: magazine feature with drop cap + pull + sidebar
+   - Source Serif display + Montserrat body (mixed type, not all-sans) */
+
+:root {
+  --tma-blue: #003b71;
+  --tma-blue-deep: #002048;
+  --tma-green: #70be5c;
+  --tma-green-deep: #2e6b1c;
+  --tma-yellow: #f0ea46;
+  --tma-yellow-deep: #c4b81d;
+  --tma-red: #ef4846;
+  --tma-red-deep: #b1342c;
+
+  --paper: #ffffff;
+  --bone: #fbf8f1;
+  --cream: #f4eedd;
+  --rule: rgba(0, 59, 113, 0.14);
+  --rule-strong: rgba(0, 59, 113, 0.28);
+
+  --ink: #0a1424;
+  --ink-soft: rgba(10, 20, 36, 0.62);
+  --ink-mute: rgba(10, 20, 36, 0.42);
+
+  /* Typography — Montserrat ONLY (per TMA brand guide). No serif. */
+  --serif: "Montserrat", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --s-1: 8px; --s-2: 12px; --s-3: 16px; --s-4: 24px;
+  --s-5: 32px; --s-6: 48px; --s-7: 64px; --s-8: 96px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { font-family: var(--sans); font-size: 16px; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+body { font-weight: 400; line-height: 1.55; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; transition: color .2s var(--ease); }
+button { font-family: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+h1, h2, h3 { font-family: var(--sans); font-weight: 700; letter-spacing: -0.025em; line-height: 1.04; margin: 0; color: var(--ink); }
+h1 { font-size: clamp(56px, 7vw, 100px); }
+h2 { font-size: clamp(40px, 4.5vw, 68px); }
+h3 { font-size: clamp(24px, 2.2vw, 36px); line-height: 1.15; }
+h4 { font-family: var(--sans); font-size: 18px; font-weight: 700; margin: 0; line-height: 1.25; }
+p { margin: 0; }
+em { font-style: italic; color: var(--tma-red); }
+
+.container { max-width: 1480px; margin: 0 auto; padding: 0 var(--s-6); }
+
+/* Eyebrow */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tma-green); }
+.eyebrow.red::before { background: var(--tma-red); }
+.eyebrow.yellow::before { background: var(--tma-yellow-deep); }
+.eyebrow.blue::before { background: var(--tma-blue); }
+.eyebrow.on-dark { color: rgba(255,255,255,0.78); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; border-radius: 999px; font-family: var(--sans); font-weight: 600; font-size: 13px; letter-spacing: 0.04em; }
+.btn-primary { background: var(--tma-red); color: #fff; }
+.btn-primary:hover { background: var(--tma-blue); }
+.btn-secondary { background: var(--tma-blue); color: var(--tma-yellow); }
+.btn-secondary:hover { background: var(--tma-blue-deep); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); padding: 11.5px 22.5px; }
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+/* Photo placeholders */
+.photo {
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(0,59,113,0.04) 0 12px,
+      rgba(0,59,113,0.08) 12px 24px),
+    var(--bone);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-mute); text-align: center; padding: 14px;
+  border: 1px dashed rgba(0,59,113,0.18);
+}
+.photo.dark {
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 12px, rgba(255,255,255,0.07) 12px 24px),
+    var(--tma-blue);
+  color: rgba(255,255,255,0.45); border-color: rgba(255,255,255,0.10);
+}
+.photo.green { background: var(--tma-green); color: var(--tma-green-deep); border: 0; }
+.photo.yellow { background: var(--tma-yellow); color: var(--tma-yellow-deep); border: 0; }
+.photo.red { background: var(--tma-red); color: #fff; border: 0; }
+.photo.cream { background: var(--cream); color: var(--ink-mute); border: 1px dashed rgba(0,59,113,0.18); }
+
+/* === Top utility bar === */
+.topbar {
+  background: var(--tma-blue); color: rgba(255,255,255,0.85);
+  font-size: 12px; letter-spacing: 0.04em;
+}
+.topbar .row {
+  max-width: 1600px; margin: 0 auto; padding: 9px var(--s-6);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.topbar .live { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; }
+.topbar .live .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--tma-green); }
+.topbar .links { display: flex; gap: 28px; }
+.topbar .links a { color: rgba(255,255,255,0.85); font-weight: 500; }
+.topbar .links a:hover { color: var(--tma-yellow); }
+
+/* === Top nav (Mastercard-style floating pill — like v1/v2) === */
+.topnav {
+  position: sticky; top: 0; z-index: 30;
+  padding: 16px var(--s-6);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--paper) 60%, transparent 100%);
+  transition: padding .35s var(--ease);
+}
+.topnav.is-scrolled { padding-top: 12px; padding-bottom: 12px; }
+.topnav .row {
+  max-width: 1560px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  padding: 12px 14px 12px 28px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  transition: box-shadow .35s var(--ease);
+}
+.topnav.is-scrolled .row { box-shadow: 0 4px 24px rgba(0,59,113,0.10); }
+.topnav .brand {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--serif); font-weight: 700;
+  font-size: 17px; letter-spacing: 0.02em;
+  color: var(--tma-blue); white-space: nowrap;
+}
+.topnav .brand .mark {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--tma-blue); color: var(--tma-yellow);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--sans); font-weight: 800; font-size: 13px;
+}
+.topnav .nav-list { display: flex; gap: 4px; align-items: center; }
+.topnav .nav-list li { position: relative; }
+.topnav .nav-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 14px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+  color: var(--ink);
+  transition: background .15s, color .15s;
+}
+.topnav .nav-link .plus { font-size: 11px; opacity: 0.55; line-height: 1; transition: transform .25s var(--ease); }
+.topnav .nav-link:hover { background: var(--bone); color: var(--tma-blue); }
+.topnav .nav-list li:hover .nav-link .plus { transform: rotate(45deg); opacity: 1; }
+.topnav .nav-list li.is-active > .nav-link { color: var(--tma-red); font-weight: 600; }
+.topnav .mega {
+  position: absolute; top: calc(100% + 16px); left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  min-width: 260px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 12px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .2s var(--ease);
+  z-index: 30;
+}
+.topnav .nav-list li:hover .mega { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.topnav .mega a { display: block; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--ink); }
+.topnav .mega a:hover { background: var(--bone); color: var(--tma-blue); }
+.topnav .nav-tools { display: inline-flex; align-items: center; gap: 8px; }
+.topnav .nav-tools .icon-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--rule);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--ink);
+}
+.topnav .nav-tools .icon-btn:hover { background: var(--bone); }
+.topnav .nav-tools .cta {
+  background: var(--tma-red); color: #fff; border: 0;
+  padding: 11px 20px; font-size: 13px; font-weight: 600;
+  border-radius: 999px;
+}
+.topnav .nav-tools .cta:hover { background: var(--tma-blue); }
+
+/* ============================================================
+   HOMEPAGE v3 — EDITORIAL MAGAZINE (rebuilt)
+   ============================================================ */
+.editorial-hero {
+  position: relative; overflow: hidden;
+  height: 80vh; min-height: 660px; max-height: 880px;
+  margin: 24px var(--s-6) 0;
+  border-radius: 24px;
+  background: var(--tma-blue);
+  color: #fff;
+}
+.editorial-hero .media {
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.04) 0 14px,
+      rgba(255,255,255,0.07) 14px 28px),
+    var(--tma-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.editorial-hero .media::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,32,72,0.15) 0%, rgba(0,32,72,0.05) 30%, rgba(0,32,72,0.85) 100%);
+}
+.editorial-hero .photo-label {
+  position: relative; z-index: 2;
+  padding: 8px 16px;
+  border: 1px dashed rgba(255,255,255,0.18);
+  border-radius: 4px;
+}
+.editorial-hero .content {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 56px;
+  z-index: 3;
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-7); align-items: end;
+}
+.editorial-hero .tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--tma-yellow); font-weight: 500;
+  padding: 7px 16px 7px 12px; border-radius: 999px;
+  background: rgba(0,32,72,0.6); border: 1px solid rgba(240,234,70,0.35);
+  margin-bottom: 24px;
+}
+.editorial-hero .tag::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--tma-yellow);
+}
+.editorial-hero h1 {
+  font-size: clamp(48px, 6vw, 96px);
+  color: #fff; line-height: 1.0; max-width: 880px;
+}
+.editorial-hero h1 em { color: var(--tma-green); }
+.editorial-hero .quote-card {
+  background: var(--paper); color: var(--tma-blue);
+  padding: 24px 26px; border-radius: 16px;
+  max-width: 420px; justify-self: end;
+}
+.editorial-hero .quote-card .q {
+  font-family: var(--serif); font-style: italic;
+  font-size: 17px; line-height: 1.45; color: var(--tma-blue);
+}
+.editorial-hero .quote-card .who {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft); margin-top: 12px; font-weight: 600;
+}
+.editorial-hero .controls {
+  position: absolute; left: 0; right: 0; top: 24px;
+  padding: 0 56px; z-index: 4;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+.editorial-hero .dots { display: flex; gap: 6px; }
+.editorial-hero .dots button {
+  width: 28px; height: 3px; background: rgba(255,255,255,0.25);
+  border-radius: 2px;
+}
+.editorial-hero .dots button.is-active { background: var(--tma-yellow); width: 44px; }
+
+.home-numbers {
+  padding: var(--s-8) 0;
+  background: var(--paper);
+}
+.home-numbers .head {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--s-7); align-items: end; margin-bottom: var(--s-6);
+}
+.home-numbers .head h2 { font-size: clamp(40px, 4.5vw, 72px); }
+.home-numbers .head .lede { font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 480px; }
+.home-numbers .grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rule);
+}
+.home-numbers .n {
+  padding: 40px 24px 40px 0;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 16px;
+  min-height: 280px;
+}
+.home-numbers .n:nth-child(4n) { border-right: 0; padding-right: 0; }
+.home-numbers .n:not(:first-child) { padding-left: 24px; }
+.home-numbers .n .v {
+  font-family: var(--serif);
+  font-size: clamp(56px, 5vw, 88px);
+  font-weight: 700; letter-spacing: -0.04em; line-height: 0.9;
+  color: var(--tma-blue);
+}
+.home-numbers .n:nth-child(2) .v { color: var(--tma-green); }
+.home-numbers .n:nth-child(3) .v { color: var(--tma-red); }
+.home-numbers .n:nth-child(4) .v { color: var(--tma-yellow-deep); }
+.home-numbers .n .l { font-size: 14px; line-height: 1.5; color: var(--ink); max-width: 240px; }
+.home-numbers .n .src {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-mute); margin-top: auto;
+  padding-top: 12px; border-top: 1px dashed var(--rule);
+}
+
+.home-feature {
+  background: var(--cream);
+  padding: var(--s-8) 0;
+}
+.home-feature .head { margin-bottom: var(--s-6); display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); align-items: end; }
+.home-feature .head h2 { font-size: clamp(40px, 4.5vw, 72px); }
+.home-feature .head .lede { font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 480px; }
+.home-feature .spread {
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px;
+  background: var(--paper); border-radius: 24px; overflow: hidden;
+  border: 1px solid var(--rule);
+}
+.home-feature .spread .media { aspect-ratio: 4/3; }
+.home-feature .spread .body { padding: 48px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+.home-feature .spread .tag {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--tma-red); font-weight: 600;
+  display: inline-flex; gap: 8px; align-self: flex-start;
+}
+.home-feature .spread .tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.home-feature .spread h3 { font-size: clamp(28px, 3vw, 44px); line-height: 1.15; color: var(--tma-blue); }
+.home-feature .spread em { color: var(--tma-red); font-style: italic; }
+.home-feature .spread .meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-soft); }
+.home-feature .spread p { font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
+
+.home-programmes { padding: var(--s-8) 0; background: var(--paper); }
+.home-programmes .head { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); align-items: end; margin-bottom: var(--s-6); }
+.home-programmes .head h2 { font-size: clamp(40px, 4.5vw, 72px); }
+.home-programmes .head .lede { font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 480px; }
+.programme-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.programme-row + .programme-row { margin-top: 16px; }
+.prog-card {
+  border-radius: 18px; overflow: hidden; cursor: pointer;
+  background: var(--tma-blue);
+  position: relative; min-height: 320px;
+  display: flex; flex-direction: column;
+  transition: transform .25s var(--ease);
+}
+.prog-card:hover { transform: translateY(-4px); }
+.prog-card .photo { flex: 1; min-height: 180px; border-radius: 0; border: 0; }
+.prog-card .body { padding: 22px 24px 24px; background: var(--tma-blue); color: #fff; }
+.prog-card .num { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tma-yellow); margin-bottom: 8px; font-weight: 600; }
+.prog-card h3 { font-family: var(--serif); font-size: 22px; font-weight: 600; color: #fff; line-height: 1.18; }
+.prog-card .arrow { margin-top: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tma-yellow); font-weight: 600; }
+.prog-card .arrow::after { content: " →"; }
+.prog-card.green .body { background: var(--tma-green); color: var(--tma-blue); }
+.prog-card.green h3 { color: var(--tma-blue); }
+.prog-card.green .num { color: var(--tma-blue); }
+.prog-card.green .arrow { color: var(--tma-blue); }
+.prog-card.cream .body { background: var(--cream); color: var(--ink); }
+.prog-card.cream h3 { color: var(--tma-blue); }
+.prog-card.cream .num { color: var(--tma-red); }
+.prog-card.cream .arrow { color: var(--tma-red); }
+.prog-card.yellow .body { background: var(--tma-yellow); color: var(--tma-blue); }
+.prog-card.yellow h3 { color: var(--tma-blue); }
+.prog-card.yellow .num { color: var(--tma-blue); }
+.prog-card.yellow .arrow { color: var(--tma-blue); }
+
+.home-stories { padding: var(--s-8) 0; background: var(--bone); }
+.home-stories .head { display: flex; justify-content: space-between; align-items: end; gap: var(--s-6); margin-bottom: var(--s-6); }
+.home-stories .head h2 { font-size: clamp(40px, 4.5vw, 72px); }
+.home-stories .grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 20px; }
+.home-story {
+  background: var(--paper); border-radius: 18px; overflow: hidden;
+  border: 1px solid var(--rule); cursor: pointer;
+  transition: transform .25s var(--ease);
+}
+.home-story:hover { transform: translateY(-4px); }
+.home-story .photo { aspect-ratio: 16/10; border-radius: 0; border: 0; }
+.home-story.featured .photo { aspect-ratio: 4/3; }
+.home-story .body { padding: 22px 24px 26px; }
+.home-story .tag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--tma-red); font-weight: 600;
+  display: inline-flex; gap: 8px;
+}
+.home-story .tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.home-story h3 { font-family: var(--serif); font-size: 22px; line-height: 1.18; color: var(--tma-blue); margin-top: 10px; }
+.home-story.featured h3 { font-size: 30px; }
+.home-story .meta { margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); display: flex; justify-content: space-between; }
+
+.home-events { padding: var(--s-7) 0 var(--s-8); background: var(--paper); }
+.home-events .head { display: flex; justify-content: space-between; align-items: end; margin-bottom: var(--s-6); }
+.home-events .head h2 { font-size: clamp(36px, 4vw, 60px); }
+.home-events .grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 16px; }
+.home-event { background: var(--paper); border: 1px solid var(--rule); border-radius: 16px; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; min-height: 280px; transition: transform .25s var(--ease); }
+.home-event:hover { transform: translateY(-3px); }
+.home-event.featured { background: var(--tma-blue); color: #fff; border: 0; }
+.home-event .pill { display: inline-flex; align-self: flex-start; font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: var(--cream); color: var(--tma-blue); }
+.home-event.featured .pill { background: var(--tma-green); color: var(--tma-blue); }
+.home-event .d { font-family: var(--serif); font-size: 64px; font-weight: 700; letter-spacing: -0.03em; line-height: 0.88; color: var(--tma-blue); }
+.home-event.featured .d { color: var(--tma-yellow); font-size: 96px; }
+.home-event .m { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.home-event.featured .m { color: rgba(255,255,255,0.7); }
+.home-event .t { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.2; color: var(--tma-blue); }
+.home-event.featured .t { color: #fff; font-size: 24px; }
+.home-event .where { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-soft); margin-top: auto; }
+.home-event.featured .where { color: rgba(255,255,255,0.7); }
+.home-event .reg { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tma-red); font-weight: 700; }
+.home-event.featured .reg { color: var(--tma-yellow); }
+.home-event .reg::after { content: " →"; }
+
+.home-timeline { padding: var(--s-7) 0 var(--s-8); background: var(--cream); }
+.home-timeline .head { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); align-items: end; margin-bottom: var(--s-7); }
+.home-timeline .head h2 { font-size: clamp(40px, 4.5vw, 72px); }
+.home-timeline .head .lede { font-size: 18px; line-height: 1.55; color: var(--ink-soft); max-width: 480px; }
+.home-timeline .track-wrap { position: relative; padding-top: 32px; }
+.home-timeline .track-wrap::before {
+  content: ""; position: absolute; top: 16px; left: 8px; right: 8px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--tma-blue), var(--tma-green), var(--tma-yellow-deep), var(--tma-red));
+  border-radius: 2px;
+}
+.home-timeline .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.home-timeline .m {
+  position: relative; padding-top: 24px;
+}
+.home-timeline .m::before {
+  content: ""; position: absolute; top: -16px; left: 0;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 3px solid var(--cream); background: var(--tma-blue);
+}
+.home-timeline .m:nth-child(2)::before { background: var(--tma-green); }
+.home-timeline .m:nth-child(3)::before { background: var(--tma-yellow-deep); }
+.home-timeline .m:nth-child(4)::before { background: var(--tma-red); }
+.home-timeline .y { font-family: var(--serif); font-size: 40px; font-weight: 700; letter-spacing: -0.02em; color: var(--tma-blue); }
+.home-timeline .m:nth-child(2) .y { color: var(--tma-green-deep); }
+.home-timeline .m:nth-child(3) .y { color: var(--tma-yellow-deep); }
+.home-timeline .m:nth-child(4) .y { color: var(--tma-red-deep); }
+.home-timeline .p { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin: 6px 0 10px; }
+.home-timeline .d { font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+.bento { padding: var(--s-6) 0 var(--s-8); }
+.bento-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 160px; gap: 14px;
+}
+.tile {
+  position: relative; overflow: hidden; border-radius: 18px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 28px; transition: transform .25s var(--ease);
+}
+.tile:hover { transform: translateY(-3px); }
+
+/* Hero — story spread */
+.tile.hero-tile { grid-column: span 8; grid-row: span 4; background: var(--tma-blue); color: #fff; padding: 48px; }
+.tile.hero-tile .tag { display: inline-flex; gap: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tma-yellow); padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.10); border: 1px solid rgba(240,234,70,0.4); align-self: flex-start; }
+.tile.hero-tile h1 { color: #fff; font-size: clamp(48px, 5vw, 76px); max-width: 720px; margin-top: 24px; }
+.tile.hero-tile h1 em { color: var(--tma-green); }
+.tile.hero-tile .meta { display: flex; align-items: center; gap: 16px; margin-top: 28px; }
+.tile.hero-tile .photo-mini { width: 56px; height: 56px; border-radius: 50%; background: var(--tma-yellow); color: var(--tma-blue); font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: var(--sans); }
+.tile.hero-tile .name { color: #fff; font-weight: 600; }
+.tile.hero-tile .role { color: rgba(255,255,255,0.65); font-size: 13px; }
+
+/* Stat tiles in different sizes/colours */
+.tile.stat-mega { grid-column: span 4; grid-row: span 2; background: var(--tma-green); color: var(--tma-blue); padding: 32px; }
+.tile.stat-mega .v { font-family: var(--serif); font-size: clamp(72px, 7vw, 128px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.88; }
+.tile.stat-mega .l { font-size: 14px; font-weight: 500; max-width: 220px; margin-top: 12px; }
+.tile.stat-mega .src { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(0,59,113,0.25); }
+
+.tile.stat-yellow { grid-column: span 2; grid-row: span 2; background: var(--tma-yellow); color: var(--tma-blue); padding: 22px; }
+.tile.stat-yellow .v { font-family: var(--serif); font-size: 56px; font-weight: 700; letter-spacing: -0.03em; line-height: 0.9; }
+.tile.stat-yellow .l { font-size: 12px; font-weight: 500; line-height: 1.35; }
+
+.tile.stat-red { grid-column: span 2; grid-row: span 2; background: var(--tma-red); color: #fff; padding: 22px; }
+.tile.stat-red .v { font-family: var(--serif); font-size: 56px; font-weight: 700; letter-spacing: -0.03em; line-height: 0.9; }
+.tile.stat-red .l { font-size: 12px; font-weight: 500; line-height: 1.35; }
+
+.tile.stat-paper { grid-column: span 2; grid-row: span 2; background: var(--bone); color: var(--ink); padding: 22px; border: 1px solid var(--rule); }
+.tile.stat-paper .v { font-family: var(--serif); font-size: 56px; font-weight: 700; letter-spacing: -0.03em; line-height: 0.9; color: var(--tma-blue); }
+.tile.stat-paper .l { font-size: 12px; font-weight: 500; line-height: 1.35; color: var(--ink-soft); }
+
+/* Event tile — featured giant date */
+.tile.event { grid-column: span 4; grid-row: span 4; background: var(--tma-blue); color: #fff; padding: 32px; }
+.tile.event .tag-mini { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tma-green); font-weight: 600; }
+.tile.event .date-big { font-family: var(--serif); font-size: 128px; font-weight: 700; letter-spacing: -0.04em; line-height: 0.85; color: var(--tma-yellow); margin-top: 8px; }
+.tile.event .when { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-top: 8px; }
+.tile.event .title { font-family: var(--serif); font-size: 26px; line-height: 1.2; font-weight: 600; color: #fff; margin-top: 16px; }
+.tile.event .register { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tma-yellow); margin-top: auto; }
+.tile.event .register::after { content: " →"; }
+
+/* Programme tiles in MIXED shapes — circle / pill / square */
+.tile.prog-circle { grid-column: span 3; grid-row: span 3; border-radius: 50%; aspect-ratio: 1; padding: 0; background: var(--tma-blue); color: #fff; align-items: center; justify-content: center; text-align: center; }
+.tile.prog-circle h3 { color: #fff; font-size: 20px; padding: 0 32px; }
+.tile.prog-circle .num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--tma-yellow); margin-bottom: 12px; }
+.tile.prog-circle.green { background: var(--tma-green); }
+.tile.prog-circle.green h3 { color: var(--tma-blue); }
+.tile.prog-circle.green .num { color: var(--tma-blue); }
+.tile.prog-circle.cream { background: var(--cream); }
+.tile.prog-circle.cream h3 { color: var(--tma-blue); }
+.tile.prog-circle.cream .num { color: var(--tma-red); }
+
+.tile.prog-pill { grid-column: span 5; grid-row: span 2; border-radius: 999px; padding: 28px 56px; background: var(--tma-green); color: var(--tma-blue); justify-content: center; }
+.tile.prog-pill h3 { color: var(--tma-blue); font-size: 24px; }
+.tile.prog-pill .num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; }
+.tile.prog-pill.red { background: var(--tma-red); color: #fff; }
+.tile.prog-pill.red h3 { color: #fff; }
+.tile.prog-pill.red .num { color: var(--tma-yellow); }
+.tile.prog-pill.yellow { background: var(--tma-yellow); color: var(--tma-blue); }
+.tile.prog-pill .tile-arrow { width: 40px; height: 40px; border-radius: 50%; background: var(--tma-blue); color: var(--tma-yellow); display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+.tile.prog-pill.red .tile-arrow { background: var(--tma-yellow); color: var(--tma-blue); }
+
+.tile.prog-square { grid-column: span 3; grid-row: span 3; background: var(--cream); color: var(--ink); }
+.tile.prog-square h3 { color: var(--tma-blue); font-size: 22px; }
+.tile.prog-square .num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--tma-red); }
+.tile.prog-square p { font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin-top: 8px; }
+
+/* Story tiles — mixed sizes */
+.tile.story { grid-column: span 4; grid-row: span 4; background: var(--tma-blue-deep); color: #fff; padding: 0; overflow: hidden; }
+.tile.story .photo { flex: 1; min-height: 0; border-radius: 0; border: 0; }
+.tile.story .body { padding: 24px 28px 28px; }
+.tile.story .tag-mini { color: var(--tma-yellow); font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; }
+.tile.story h3 { color: #fff; font-size: 22px; margin-top: 8px; line-height: 1.18; }
+.tile.story .meta-mini { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 14px; }
+.tile.story.wide { grid-column: span 8; grid-row: span 3; flex-direction: row; }
+.tile.story.wide .photo { flex: 1; min-height: 100%; }
+.tile.story.wide .body { width: 50%; padding: 36px; align-self: center; }
+
+/* Timeline tile full width */
+.tile.timeline { grid-column: span 12; grid-row: span 2; background: var(--bone); color: var(--ink); padding: 36px 48px; border: 1px solid var(--rule); }
+.tile.timeline .head { display: flex; align-items: end; justify-content: space-between; margin-bottom: 24px; gap: 24px; }
+.tile.timeline h3 { font-size: 32px; }
+.tile.timeline .track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; padding-top: 32px; }
+.tile.timeline .track::before { content: ""; position: absolute; top: 16px; left: 8px; right: 8px; height: 2px; background: linear-gradient(90deg, var(--tma-blue), var(--tma-green), var(--tma-yellow-deep), var(--tma-red)); border-radius: 2px; }
+.tile.timeline .mile { position: relative; padding-top: 24px; }
+.tile.timeline .mile::before { content: ""; position: absolute; top: -16px; left: 0; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--bone); background: var(--tma-blue); }
+.tile.timeline .mile:nth-child(2)::before { background: var(--tma-green); }
+.tile.timeline .mile:nth-child(3)::before { background: var(--tma-yellow-deep); }
+.tile.timeline .mile:nth-child(4)::before { background: var(--tma-red); }
+.tile.timeline .mile .y { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: var(--tma-blue); }
+.tile.timeline .mile:nth-child(2) .y { color: var(--tma-green-deep); }
+.tile.timeline .mile:nth-child(3) .y { color: var(--tma-yellow-deep); }
+.tile.timeline .mile:nth-child(4) .y { color: var(--tma-red-deep); }
+.tile.timeline .mile .p { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin: 6px 0 10px; }
+.tile.timeline .mile .d { font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+
+/* ============================================================
+   PAGE HEAD (inner pages)
+   ============================================================ */
+.page-head { background: var(--paper); padding: var(--s-8) 0 var(--s-6); border-bottom: 1px solid var(--rule); }
+.page-head .breadcrumb { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 24px; }
+.page-head .breadcrumb a { color: var(--ink-soft); }
+.page-head .breadcrumb a:hover { color: var(--tma-blue); }
+.page-head .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-7); align-items: end; }
+.page-head h1 { margin-top: 18px; }
+.page-head .lede { font-size: 19px; line-height: 1.55; color: var(--ink-soft); max-width: 480px; }
+
+/* ============================================================
+   PRESS — vertical reel timeline
+   ============================================================ */
+.reel { padding: var(--s-7) 0 var(--s-8); background: var(--paper); position: relative; }
+.reel .spine { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--rule); transform: translateX(-1px); }
+.reel-item { position: relative; display: grid; grid-template-columns: 1fr 80px 1fr; gap: var(--s-4); align-items: center; margin-bottom: var(--s-7); }
+.reel-item .pivot { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.reel-item .pivot .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--tma-blue); position: relative; z-index: 2; }
+.reel-item.green .pivot .dot { background: var(--tma-green); }
+.reel-item.yellow .pivot .dot { background: var(--tma-yellow-deep); }
+.reel-item.red .pivot .dot { background: var(--tma-red); }
+.reel-item .pivot .date { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; text-align: center; }
+.reel-item .photo-side { aspect-ratio: 16/10; border-radius: 12px; }
+.reel-item .text-side { padding: 0 var(--s-4); }
+.reel-item .tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tma-red); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+.reel-item .tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.reel-item.green .tag { color: var(--tma-green-deep); }
+.reel-item.yellow .tag { color: var(--tma-yellow-deep); }
+.reel-item.blue .tag { color: var(--tma-blue); }
+.reel-item h3 { font-family: var(--serif); font-size: 30px; font-weight: 600; line-height: 1.15; color: var(--tma-blue); }
+.reel-item .summary { font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin-top: 12px; }
+.reel-item .read { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tma-blue); font-weight: 600; border-bottom: 2px solid var(--tma-yellow); padding-bottom: 2px; }
+.reel-item.right .photo-side { grid-column: 3; }
+.reel-item.right .text-side { grid-column: 1; text-align: right; }
+.reel-item.left .photo-side { grid-column: 1; }
+.reel-item.left .text-side { grid-column: 3; }
+
+/* ============================================================
+   TENDERS — status-coloured card deck
+   ============================================================ */
+.deck-page { padding: var(--s-7) 0 var(--s-8); background: var(--paper); }
+.deck { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.tender-card { border-radius: 18px; padding: 28px 30px; display: flex; flex-direction: column; gap: 16px; min-height: 280px; position: relative; overflow: hidden; transition: transform .25s var(--ease); }
+.tender-card:hover { transform: translateY(-4px); }
+.tender-card.urgent  { background: var(--tma-red); color: #fff; }
+.tender-card.closing { background: var(--tma-yellow); color: var(--tma-blue); }
+.tender-card.open    { background: var(--tma-green); color: var(--tma-blue); }
+.tender-card.draft   { background: var(--bone); color: var(--ink); border: 1px solid var(--rule); }
+.tender-card .ref { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; opacity: 0.85; }
+.tender-card .status { position: absolute; top: 24px; right: 24px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,0.85); }
+.tender-card.urgent .status { background: #fff; color: var(--tma-red); }
+.tender-card.closing .status { background: var(--tma-blue); color: var(--tma-yellow); }
+.tender-card.open .status { background: var(--tma-blue); color: #fff; }
+.tender-card.draft .status { background: var(--tma-blue); color: #fff; }
+.tender-card h3 { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.2; color: inherit; }
+.tender-card .meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; opacity: 0.8; display: flex; gap: 16px; flex-wrap: wrap; }
+.tender-card .closes { font-family: var(--sans); font-size: 13px; font-weight: 600; margin-top: auto; }
+.tender-card .open-btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; align-self: flex-start; padding: 8px 14px; border-radius: 999px; background: rgba(0,0,0,0.12); color: inherit; }
+.tender-card.urgent .open-btn { background: rgba(255,255,255,0.18); color: #fff; }
+
+/* ============================================================
+   CAREERS — department-coloured zones
+   ============================================================ */
+.zones-page { padding: var(--s-7) 0 var(--s-8); background: var(--paper); }
+.zone { border-radius: 24px; padding: 36px 40px; margin-bottom: 16px; }
+.zone.blue   { background: var(--tma-blue); color: #fff; }
+.zone.green  { background: var(--tma-green); color: var(--tma-blue); }
+.zone.yellow { background: var(--tma-yellow); color: var(--tma-blue); }
+.zone.red    { background: var(--tma-red); color: #fff; }
+.zone.cream  { background: var(--cream); color: var(--ink); }
+.zone-head { display: flex; align-items: end; justify-content: space-between; gap: var(--s-5); margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid currentColor; }
+.zone-head h2 { font-family: var(--serif); font-size: clamp(32px, 3vw, 48px); color: inherit; }
+.zone-head .count { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; }
+.zone-jobs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.zone-job { background: rgba(255,255,255,0.18); border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; cursor: pointer; transition: background .25s, transform .25s var(--ease); }
+.zone-job:hover { background: rgba(255,255,255,0.28); transform: translateY(-2px); }
+.zone.cream .zone-job { background: rgba(0,59,113,0.08); }
+.zone.cream .zone-job:hover { background: rgba(0,59,113,0.14); }
+.zone-job .title { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.2; }
+.zone-job .meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; opacity: 0.85; font-weight: 500; }
+.zone-job .apply { align-self: flex-start; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; margin-top: auto; }
+.zone-job .apply::after { content: " →"; }
+
+/* ============================================================
+   SENIOR MGMT — org pyramid
+   ============================================================ */
+.pyramid-page { padding: var(--s-8) 0 var(--s-8); background: var(--paper); }
+.pyramid-tier { display: flex; justify-content: center; gap: 14px; margin-bottom: 56px; }
+.pyramid-tier.tier-ceo .person { width: 380px; }
+.pyramid-tier.tier-c .person { width: 220px; }
+.pyramid-tier.tier-sd { display: grid; grid-template-columns: repeat(4, 1fr); }
+.tier-label { text-align: center; margin-bottom: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-mute); font-weight: 600; }
+.person { background: var(--paper); border: 1px solid var(--rule); border-radius: 16px; overflow: hidden; }
+.person .portrait { aspect-ratio: 4/5; }
+.person .body { padding: 18px 20px 22px; }
+.person .role-mini { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tma-green-deep); font-weight: 600; margin-bottom: 8px; }
+.tier-ceo .person .role-mini { color: var(--tma-red); }
+.tier-c .person .role-mini { color: var(--tma-yellow-deep); }
+.tier-sd .person .role-mini { color: var(--tma-green-deep); }
+.person h4 { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--tma-blue); }
+.tier-ceo .person h4 { font-size: 36px; }
+.tier-c .person h4 { font-size: 20px; }
+.tier-sd .person h4 { font-size: 17px; }
+.person .desc { font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin-top: 6px; }
+.connectors { display: flex; justify-content: center; margin-bottom: 24px; }
+.connector { width: 2px; height: 32px; background: var(--rule); }
+.cd-map { background: var(--bone); border: 1px solid var(--rule); border-radius: 24px; padding: 48px; margin-top: 48px; text-align: center; }
+.cd-map h3 { font-family: var(--serif); font-size: 36px; color: var(--tma-blue); margin-bottom: 32px; }
+.cd-map .map-photo { aspect-ratio: 16/9; border-radius: 16px; background: repeating-linear-gradient(135deg, rgba(0,59,113,0.04) 0 12px, rgba(0,59,113,0.08) 12px 24px), var(--paper); border: 1px dashed var(--rule); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute); font-weight: 500; }
+
+/* ============================================================
+   ABOUT — magazine feature
+   ============================================================ */
+.feature-page { padding: var(--s-8) 0 var(--s-8); background: var(--paper); }
+.feature-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--s-7); }
+.feature-main { font-size: 18px; line-height: 1.75; color: var(--ink); }
+.feature-main p { margin-bottom: 22px; }
+.feature-main p:first-of-type::first-letter { font-family: var(--serif); font-weight: 700; float: left; font-size: 96px; line-height: 0.85; padding: 8px 12px 0 0; color: var(--tma-red); }
+.feature-main p strong { color: var(--tma-blue); font-weight: 700; }
+.feature-main .pull { font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; color: var(--tma-blue); padding: 24px 0 24px 32px; border-left: 4px solid var(--tma-yellow); margin: 36px 0; }
+.feature-main .pull em { color: var(--tma-red); }
+.feature-side { display: flex; flex-direction: column; gap: 24px; }
+.side-card { background: var(--cream); padding: 24px 26px; border-radius: 12px; }
+.side-card h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tma-blue); margin-bottom: 14px; }
+.side-card .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.side-card .row:last-child { border: 0; }
+.side-card .row .v { font-family: var(--serif); font-weight: 600; color: var(--tma-blue); }
+.feature-photo { aspect-ratio: 4/5; border-radius: 12px; margin-top: 24px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.donor-band { background: var(--bone); padding: var(--s-5) 0; text-align: center; }
+.donor-band .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 16px; }
+.donor-band .logos { display: flex; gap: 48px; justify-content: center; flex-wrap: wrap; }
+.donor-band .logo-ph { font-size: 12px; font-weight: 600; padding: 10px 16px; border: 1px dashed var(--rule-strong); border-radius: 8px; color: var(--ink-soft); }
+.newsletter-band { background: var(--tma-green); color: var(--tma-blue); padding: var(--s-7) 0; }
+.newsletter-band .grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--s-7); align-items: center; }
+.newsletter-band h3 { font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); color: var(--tma-blue); line-height: 1.1; }
+.newsletter-band form { display: flex; border-bottom: 2px solid var(--tma-blue); }
+.newsletter-band input { flex: 1; background: transparent; border: 0; outline: 0; padding: 14px 0; font-size: 18px; font-family: var(--serif); color: var(--tma-blue); }
+.newsletter-band input::placeholder { color: rgba(0,59,113,0.5); }
+.newsletter-band button { background: var(--tma-blue); color: var(--tma-yellow); padding: 12px 22px; border-radius: 999px; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+.site-footer { background: var(--tma-blue-deep); color: #fff; padding: var(--s-7) 0 var(--s-4); }
+.site-footer .grid { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: var(--s-5); padding-bottom: var(--s-4); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.site-footer .brand-col { display: flex; flex-direction: column; gap: 16px; }
+.site-footer .brand-col .mark { width: 40px; height: 40px; border-radius: 50%; background: var(--tma-yellow); color: var(--tma-blue); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.site-footer .brand-col p { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.7); max-width: 300px; }
+.site-footer h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tma-green); margin-bottom: 16px; font-weight: 500; }
+.site-footer ul li { margin-bottom: 10px; }
+.site-footer ul a { font-size: 13px; color: rgba(255,255,255,0.78); }
+.site-footer ul a:hover { color: var(--tma-yellow); }
+.footer-bottom { padding: 18px 0; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); display: flex; justify-content: space-between; }
+
+[data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+[data-reveal].is-revealed { opacity: 1; transform: none; }
+
+/* ============================================================
+   INTERACTIVE AFRICA MAP — 17 country director pins
+   ============================================================ */
+.map-controls { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 32px 0 24px; flex-wrap: wrap; text-align: left; }
+.map-controls .group { display: inline-flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.map-controls .label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mute); font-weight: 600; margin-right: 8px; }
+.map-controls .chip { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule); background: var(--paper); color: var(--tma-blue); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.map-controls .chip:hover { background: var(--bone); }
+.map-controls .chip.is-active { background: var(--tma-blue); color: var(--tma-yellow); border-color: var(--tma-blue); }
+
+.africa-map { position: relative; background: var(--paper); border: 1px solid var(--rule); border-radius: 20px; padding: 32px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; text-align: left; }
+.africa-map .map-svg { position: relative; background: var(--bone); border-radius: 14px; padding: 24px; aspect-ratio: 1 / 1.05; }
+.africa-map svg { width: 100%; height: 100%; display: block; }
+.africa-map .country-silhouette { fill: rgba(0, 59, 113, 0.08); stroke: rgba(0, 59, 113, 0.32); stroke-width: 1.2; }
+.africa-map.dark { background: var(--tma-blue-deep); border-color: transparent; }
+.africa-map.dark .map-svg { background: rgba(255,255,255,0.04); }
+.africa-map.dark .country-silhouette { fill: rgba(255,255,255,0.06); stroke: rgba(255,255,255,0.2); }
+.africa-map .pin { cursor: pointer; transition: transform .2s var(--ease); transform-box: fill-box; transform-origin: center; }
+.africa-map .pin .pin-bg { fill: var(--tma-blue); stroke: #fff; stroke-width: 1.5; }
+.africa-map .pin .pin-initials { fill: var(--tma-yellow); font-family: var(--sans); font-weight: 700; font-size: 9px; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.africa-map .pin.is-horn .pin-bg { fill: var(--tma-red); }
+.africa-map .pin.is-southern .pin-bg { fill: var(--tma-green-deep); }
+.africa-map .pin.is-west .pin-bg { fill: var(--tma-yellow-deep); }
+.africa-map .pin.is-central .pin-bg { fill: var(--tma-blue-deep); }
+.africa-map .pin:hover { transform: scale(1.25); }
+.africa-map .pin.is-active .pin-bg { stroke: var(--tma-yellow); stroke-width: 3; }
+.africa-map .pin.dim { opacity: 0.25; }
+
+.africa-map .country-list { display: flex; flex-direction: column; overflow-y: auto; max-height: 580px; }
+.africa-map .cd-row { display: grid; grid-template-columns: 40px 1fr auto; gap: 14px; align-items: center; padding: 12px 4px; border-bottom: 1px solid var(--rule); cursor: pointer; transition: background .2s, padding-left .2s; }
+.africa-map .cd-row:hover, .africa-map .cd-row.is-active { background: var(--bone); padding-left: 12px; }
+.africa-map .cd-row .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--tma-blue); color: var(--tma-yellow); display: inline-flex; align-items: center; justify-content: center; font-family: var(--sans); font-weight: 700; font-size: 12px; }
+.africa-map .cd-row.is-horn .avatar { background: var(--tma-red); color: #fff; }
+.africa-map .cd-row.is-southern .avatar { background: var(--tma-green-deep); color: #fff; }
+.africa-map .cd-row.is-west .avatar { background: var(--tma-yellow-deep); color: var(--tma-blue); }
+.africa-map .cd-row.is-central .avatar { background: var(--tma-blue-deep); color: var(--tma-yellow); }
+.africa-map .cd-row .info .country { font-weight: 600; font-size: 14px; color: var(--tma-blue); }
+.africa-map .cd-row .info .director { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-mute); text-transform: uppercase; margin-top: 2px; }
+.africa-map .cd-row .arrow { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); font-weight: 700; }
+
+.africa-map .tooltip { position: absolute; pointer-events: none; background: var(--tma-blue); color: #fff; padding: 10px 14px; border-radius: 10px; font-family: var(--sans); font-size: 12px; white-space: nowrap; transform: translate(-50%, -110%); opacity: 0; transition: opacity .15s; z-index: 10; }
+.africa-map .tooltip.is-shown { opacity: 1; }
+.africa-map .tooltip .t-country { font-weight: 700; font-size: 13px; }
+.africa-map .tooltip .t-director { opacity: 0.85; font-size: 11px; margin-top: 2px; }
+
+.tweaks-card { background: var(--bone); border: 1px solid var(--rule); border-radius: 18px; padding: 20px 24px; margin-top: 32px; display: flex; flex-direction: column; gap: 14px; text-align: left; }
+.tweaks-card .tweaks-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-mute); font-weight: 600; }
+.tweaks-card .tweak-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.tweaks-card .tweak-label { font-size: 13px; font-weight: 600; color: var(--tma-blue); }
+.tweaks-card .tweak-options { display: inline-flex; gap: 4px; background: var(--paper); padding: 4px; border-radius: 999px; border: 1px solid var(--rule); }
+.tweaks-card .tweak-options button { padding: 6px 14px; border-radius: 999px; font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; background: transparent; }
+.tweaks-card .tweak-options button.is-active { background: var(--tma-blue); color: var(--tma-yellow); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div data-partial="topbar"></div>
+<div data-partial="nav" data-active="Home"></div>
+
+<!-- ============================================================
+     1. EDITORIAL HERO — full-bleed cinematic with portrait quote
+     ============================================================ -->
+<section class="editorial-hero">
+
+  <!-- Slide 1 -->
+  <div class="hero-slide is-active" data-slide style="position:absolute; inset:0;">
+    <div class="media"><span class="photo-label">Photo · Esther at Malaba border post</span></div>
+  </div>
+  <div class="hero-slide" data-slide style="position:absolute; inset:0; opacity:0; visibility:hidden;">
+    <div class="media"><span class="photo-label">Photo · Tema Port at dawn</span></div>
+  </div>
+  <div class="hero-slide" data-slide style="position:absolute; inset:0; opacity:0; visibility:hidden;">
+    <div class="media"><span class="photo-label">Photo · Rusumo paperless border</span></div>
+  </div>
+
+  <div class="controls">
+    <span>● Changed Lives · A series</span>
+    <span data-slide-counter>01 / 03</span>
+    <div class="dots">
+      <button data-dot aria-label="Slide 1"></button>
+      <button data-dot aria-label="Slide 2"></button>
+      <button data-dot aria-label="Slide 3"></button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div>
+      <span class="tag">Uganda → Kenya · Inclusive trade</span>
+      <h1>From three nights<br>to <em>twenty-seven minutes</em>.</h1>
+    </div>
+    <div class="quote-card">
+      <div class="q">"I used to sleep three nights in my truck at the border. Now I'm home for dinner."</div>
+      <div class="who">Esther Nakitende · Maize trader · Malaba</div>
+    </div>
+  </div>
+</section>
+
+<!-- Inline anti-flicker for hero slide setup -->
+<style>.editorial-hero .hero-slide { transition: opacity 1s var(--ease), visibility 1s; } .editorial-hero .hero-slide.is-active { opacity: 1 !important; visibility: visible !important; }</style>
+
+<!-- ============================================================
+     2. NUMBERS — editorial layout, no boxes
+     ============================================================ -->
+<section class="home-numbers">
+  <div class="container">
+    <div class="head" data-reveal>
+      <div>
+        <span class="eyebrow">02 · By the numbers</span>
+        <h2 style="margin-top:18px;">Sixteen years.<br>Four numbers that tell the story.</h2>
+      </div>
+      <p class="lede">Every figure traceable to a published evaluation. The full impact dashboard breaks them down by country, programme and year.</p>
+    </div>
+    <div class="grid" data-reveal>
+      <div class="n">
+        <div class="v">$1.3B</div>
+        <div class="l">Mobilised in development finance for African trade infrastructure since 2010.</div>
+        <div class="src">TMA Annual Review, 2024</div>
+      </div>
+      <div class="n">
+        <div class="v">100+</div>
+        <div class="l">Trade systems digitalised across public and private sector — average transaction costs down 50%.</div>
+        <div class="src">EDI Global Independent Evaluation, 2024</div>
+      </div>
+      <div class="n">
+        <div class="v">85K+</div>
+        <div class="l">Traders moved into formal cross-border trade through cooperatives, training, and digital enrolment.</div>
+        <div class="src">TMA Programme Reports, 2024</div>
+      </div>
+      <div class="n">
+        <div class="v">21</div>
+        <div class="l">Border posts modernised to one-stop, 2011 – 2024. Average wait time down 96%.</div>
+        <div class="src">TMA Annual Review, 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. FEATURED IMPACT — magazine spread
+     ============================================================ -->
+<section class="home-feature">
+  <div class="container">
+    <div class="head" data-reveal>
+      <div>
+        <span class="eyebrow red">03 · The feature</span>
+        <h2 style="margin-top:18px;">The Tema Port revolution.</h2>
+      </div>
+      <p class="lede">How a paperless port community system in Ghana cut container dwell time from fourteen days to thirty-six hours — and what it took to get there.</p>
+    </div>
+    <article class="spread" data-reveal>
+      <div class="media photo">Photo · Tema Port aerial · 4:3</div>
+      <div class="body">
+        <span class="tag">Ports &amp; corridors</span>
+        <h3>From <em>14 days</em> to <em>36 hours</em> — how Tema let go of paper.</h3>
+        <div class="meta">GHANA · 2025 · 12 min read</div>
+        <p>The port community system at Tema went live in early 2024. By Q1 2025, average container dwell time had fallen 89%. Behind the numbers: a paperless customs clearance pathway, integrated payment rails, and a coalition of port authority, customs, and 2,400 trade operators.</p>
+        <a class="btn btn-primary" href="pages/press-releases.html" style="margin-top: 12px; align-self: flex-start;">Read the full story →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PROGRAMMES — 4-col rows, photo above + label below
+     ============================================================ -->
+<section class="home-programmes">
+  <div class="container">
+    <div class="head" data-reveal>
+      <div>
+        <span class="eyebrow yellow">04 · How we work</span>
+        <h2 style="margin-top:18px;">Eight programme areas.<br>One <em>theory of change</em>.</h2>
+      </div>
+      <p class="lede">We invest where trade is stuck — across infrastructure, policy, digital systems, and the people who move goods.</p>
+    </div>
+
+    <div class="programme-row" data-reveal>
+      <article class="prog-card">
+        <div class="photo dark">Photo · Customs hall · policy</div>
+        <div class="body">
+          <div class="num">FIELD · 01</div>
+          <h3>Trade &amp; Investment Environment</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+      <article class="prog-card green">
+        <div class="photo">Photo · Single-window terminal</div>
+        <div class="body">
+          <div class="num">FIELD · 02</div>
+          <h3>Digital Trade Systems</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+      <article class="prog-card">
+        <div class="photo dark">Photo · OSBP truck crossing</div>
+        <div class="body">
+          <div class="num">FIELD · 03</div>
+          <h3>Physical Connectivity</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+      <article class="prog-card cream">
+        <div class="photo">Photo · Quality lab inspection</div>
+        <div class="body">
+          <div class="num">FIELD · 04</div>
+          <h3>Quality &amp; Value</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="programme-row" data-reveal>
+      <article class="prog-card green">
+        <div class="photo">Photo · Green corridor</div>
+        <div class="body">
+          <div class="num">FIELD · 05</div>
+          <h3>Green &amp; Low-Carbon Trade</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+      <article class="prog-card">
+        <div class="photo dark">Photo · Women cooperative</div>
+        <div class="body">
+          <div class="num">FIELD · 06</div>
+          <h3>Resilient &amp; Inclusive Trade</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+      <article class="prog-card yellow">
+        <div class="photo">Photo · West Africa woman trader</div>
+        <div class="body">
+          <div class="num">FIELD · 07</div>
+          <h3>Women in West Africa</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+      <article class="prog-card cream">
+        <div class="photo">Photo · Berbera fish market</div>
+        <div class="body">
+          <div class="num">FIELD · 08</div>
+          <h3>Coastal Fisheries</h3>
+          <div class="arrow">Explore</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. MORE STORIES — 3-up grid
+     ============================================================ -->
+<section class="home-stories">
+  <div class="container">
+    <div class="head" data-reveal>
+      <div>
+        <span class="eyebrow">05 · More from the field</span>
+        <h2 style="margin-top:18px;">Stories that<br>moved the needle.</h2>
+      </div>
+      <a class="btn btn-ghost" href="pages/press-releases.html">All 120+ stories</a>
+    </div>
+
+    <div class="grid" data-reveal>
+      <article class="home-story featured">
+        <div class="photo">Photo · Coffee cooperative · Uganda</div>
+        <div class="body">
+          <span class="tag">Inclusive Trade</span>
+          <h3>The cooperative that doubled women's coffee earnings.</h3>
+          <div class="meta"><span>UGANDA · 2024</span><span>8 min read</span></div>
+        </div>
+      </article>
+      <article class="home-story">
+        <div class="photo green">Photo · Standards lab · EAC</div>
+        <div class="body">
+          <span class="tag">Quality &amp; Value</span>
+          <h3>Harmonised pharma standards halve compliance time.</h3>
+          <div class="meta"><span>EAC · 2024</span><span>9 min</span></div>
+        </div>
+      </article>
+      <article class="home-story">
+        <div class="photo yellow">Photo · Rusumo border</div>
+        <div class="body">
+          <span class="tag">Digital Trade</span>
+          <h3>The paperless border that rebuilt cross-border trust.</h3>
+          <div class="meta"><span>RWANDA · DRC · 2026</span><span>7 min</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. UPCOMING EVENTS
+     ============================================================ -->
+<section class="home-events">
+  <div class="container">
+    <div class="head" data-reveal>
+      <div>
+        <span class="eyebrow blue">06 · What's next</span>
+        <h2 style="margin-top:14px;">Upcoming convenings.</h2>
+      </div>
+      <a class="btn btn-ghost" href="#">All events</a>
+    </div>
+
+    <div class="grid" data-reveal>
+      <article class="home-event featured">
+        <span class="pill">● Flagship · 3-day forum</span>
+        <div class="d">14</div>
+        <span class="m">MAY 2026</span>
+        <div class="t">Africa Trade Development Forum 2026</div>
+        <span class="where">Nairobi · KICC · Hybrid</span>
+        <span class="reg">Reserve a seat</span>
+      </article>
+      <article class="home-event">
+        <span class="pill">Roundtable</span>
+        <div class="d">02</div>
+        <span class="m">JUN 2026</span>
+        <div class="t">West Africa Digital Customs Roundtable</div>
+        <span class="where">Accra · 1-day</span>
+        <span class="reg">Register</span>
+      </article>
+      <article class="home-event">
+        <span class="pill">Workshop</span>
+        <div class="d">11</div>
+        <span class="m">JUN 2026</span>
+        <div class="t">Women in Cross-Border Trade Lab</div>
+        <span class="where">Kigali · Half-day</span>
+        <span class="reg">Register</span>
+      </article>
+      <article class="home-event">
+        <span class="pill">Briefing</span>
+        <div class="d">23</div>
+        <span class="m">JUL 2026</span>
+        <div class="t">Low-Carbon Logistics: TMA × IMO</div>
+        <span class="where">Online · 90 min</span>
+        <span class="reg">Register</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. OUR STORY — timeline
+     ============================================================ -->
+<section class="home-timeline">
+  <div class="container">
+    <div class="head" data-reveal>
+      <div>
+        <span class="eyebrow">07 · The arc</span>
+        <h2 style="margin-top:18px;">An East African idea,<br>a <em>continental movement</em>.</h2>
+      </div>
+      <p class="lede">Founded in 2010 to accelerate East African Community trade, TMA now spans 17 countries — and the 2030 strategy is just getting started.</p>
+    </div>
+    <div class="track-wrap" data-reveal>
+      <div class="grid">
+        <div class="m">
+          <div class="y">2010</div>
+          <div class="p">Chapter 1 · East Africa</div>
+          <div class="d">TradeMark East Africa established as the aid-for-trade vehicle for the EAC.</div>
+        </div>
+        <div class="m">
+          <div class="y">2018</div>
+          <div class="p">Chapter 2 · Expansion</div>
+          <div class="d">First OSBPs go live; Horn of Africa joins. Mombasa dwell time begins to fall.</div>
+        </div>
+        <div class="m">
+          <div class="y">2023</div>
+          <div class="p">Chapter 3 · A continent</div>
+          <div class="d">Rebrand to TradeMark Africa. West Africa launch in Ghana. Trade Catalyst Africa stands up.</div>
+        </div>
+        <div class="m">
+          <div class="y">2030</div>
+          <div class="p">Chapter 4 · The horizon</div>
+          <div class="d">$1.3B catalysed, low-carbon corridors live, AfCFTA fully operational.</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 56px; text-align: right;">
+      <a class="btn btn-primary" href="pages/about-us.html">The full story →</a>
+    </div>
+  </div>
+</section>
+
+<div data-partial="footer"></div>
+
+<script>
+/* TMA v3 partials — topbar + top nav + footer */
+(() => {
+  const root = location.pathname.includes('/pages/') ? '../' : '';
+
+  const TOPBAR = `
+    <div class="topbar">
+      <div class="row">
+        <span class="live"><span class="dot"></span>Africa Trade Pulse · +7.2% intra-African trade · Q1 2026</span>
+        <span class="links">
+          <a href="${root}pages/contact-us.html">Contact</a>
+          <a href="${root}pages/careers.html">Careers</a>
+          <a href="${root}pages/procurement.html">Procurement</a>
+          <a href="#search">⌕</a>
+        </span>
+      </div>
+    </div>`;
+
+  const NAV = (active) => `
+    <div class="topnav" data-nav>
+      <div class="row">
+        <a href="${root}index.html" class="brand">
+          <span class="mark">T</span><span>TradeMark Africa</span>
+        </a>
+        <ul class="nav-list">
+          <li class="${active==='Home'?'is-active':''}"><a class="nav-link" href="${root}index.html">Home</a></li>
+          <li class="${active==='About Us'?'is-active':''}">
+            <a class="nav-link" href="${root}pages/about-us.html">About Us <span class="plus">+</span></a>
+            <div class="mega">
+              <a href="${root}pages/about-us.html">The Story</a>
+              <a href="${root}pages/theory-of-change.html">Theory of Change</a>
+              <a href="${root}pages/donors.html">Funders &amp; Partners</a>
+              <a href="${root}pages/senior-management.html">Leadership</a>
+              <a href="${root}pages/faqs.html">FAQs</a>
+            </div>
+          </li>
+          <li class="${active==='Impact'?'is-active':''}">
+            <a class="nav-link" href="${root}pages/impact.html">Impact <span class="plus">+</span></a>
+            <div class="mega">
+              <a href="${root}pages/impact-results.html">Results in Numbers</a>
+              <a href="${root}pages/impact.html">Impact Overview</a>
+              <a href="${root}pages/impact-stories.html">Changed Lives</a>
+            </div>
+          </li>
+          <li class="${active==='Our Work'?'is-active':''}">
+            <a class="nav-link" href="${root}pages/our-work.html">Our Work <span class="plus">+</span></a>
+            <div class="mega">
+              <a href="${root}pages/programme-areas.html">Programme Areas</a>
+              <a href="${root}pages/africa-map.html">Across Africa</a>
+              <a href="${root}pages/projects.html">Live Projects</a>
+            </div>
+          </li>
+          <li class="${active==='Resources'?'is-active':''}">
+            <a class="nav-link" href="${root}pages/resources.html">Library <span class="plus">+</span></a>
+            <div class="mega">
+              <a href="${root}pages/publications.html">Publications &amp; Briefs</a>
+              <a href="${root}pages/annual-reports.html">Annual Reports</a>
+              <a href="${root}pages/evaluations.html">Evaluations</a>
+              <a href="${root}pages/strategy.html">Strategy 2023 – 2030</a>
+            </div>
+          </li>
+          <li class="${active==='News Room'?'is-active':''}">
+            <a class="nav-link" href="${root}pages/news-room.html">News Room <span class="plus">+</span></a>
+            <div class="mega">
+              <a href="${root}pages/press-releases.html">Press Releases</a>
+              <a href="${root}pages/trade-news.html">Trade News</a>
+              <a href="${root}pages/blog.html">Field Notes</a>
+              <a href="${root}pages/podcasts.html">Podcasts &amp; Films</a>
+              <a href="${root}pages/events.html">Events</a>
+            </div>
+          </li>
+        </ul>
+        <div class="nav-tools">
+          <button class="icon-btn" aria-label="Language">EN</button>
+          <a class="cta" href="${root}pages/newsletter.html">Get our briefing</a>
+        </div>
+      </div>
+    </div>`;
+
+  const FOOTER = `
+    <div class="donor-band">
+      <div class="container">
+        <div class="label">In partnership with</div>
+        <div class="logos">
+          <span class="logo-ph">European Union</span><span class="logo-ph">FCDO</span>
+          <span class="logo-ph">USAID</span><span class="logo-ph">Denmark</span>
+          <span class="logo-ph">Sweden</span><span class="logo-ph">Netherlands</span>
+          <span class="logo-ph">Norway</span><span class="logo-ph">Canada</span>
+          <span class="logo-ph">Belgium</span><span class="logo-ph">Ireland</span>
+          <span class="logo-ph">Finland</span>
+        </div>
+      </div>
+    </div>
+    <div class="newsletter-band">
+      <div class="container">
+        <div class="grid">
+          <h3>The fortnightly briefing.<br>Trade moving in Africa.</h3>
+          <form onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ On the list';">
+            <input type="email" placeholder="your@email.org" required>
+            <button type="submit">Sign me up →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="grid">
+          <div class="brand-col">
+            <div class="mark">T</div>
+            <p>TradeMark Africa — the aid-for-trade organisation working across 17 African countries.<br>Founded 2010 · Headquartered in Nairobi.</p>
+          </div>
+          <div><h5>The Organisation</h5><ul>
+            <li><a href="${root}pages/about-us.html">The Story</a></li>
+            <li><a href="${root}pages/impact.html">Impact</a></li>
+            <li><a href="${root}pages/our-work.html">Our Work</a></li>
+            <li><a href="${root}pages/resources.html">Library</a></li>
+            <li><a href="${root}pages/news-room.html">News Room</a></li>
+          </ul></div>
+          <div><h5>Work With Us</h5><ul>
+            <li><a href="${root}pages/contact-us.html">Reach out</a></li>
+            <li><a href="${root}pages/careers.html">Open roles</a></li>
+            <li><a href="${root}pages/procurement.html">Tenders</a></li>
+            <li><a href="${root}pages/faqs.html">FAQs</a></li>
+          </ul></div>
+          <div><h5>Governance</h5><ul>
+            <li><a href="${root}pages/governance.html">Overview</a></li>
+            <li><a href="${root}pages/board-of-directors.html">The Board</a></li>
+            <li><a href="${root}pages/senior-management.html">Leadership</a></li>
+            <li><a href="${root}pages/council-members.html">Council</a></li>
+            <li><a href="${root}pages/whistleblowing.html">Whistleblowing</a></li>
+          </ul></div>
+          <div><h5>Fine print</h5><ul>
+            <li><a href="${root}pages/newsletter.html">Newsletter</a></li>
+            <li><a href="${root}pages/sitemap.html">Sitemap</a></li>
+            <li><a href="${root}pages/privacy.html">Privacy</a></li>
+            <li><a href="${root}pages/terms.html">Terms of use</a></li>
+            <li><a href="${root}pages/accessibility.html">Accessibility</a></li>
+          </ul></div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 TradeMark Africa · All rights reserved</span>
+          <span>English · Français · Português</span>
+        </div>
+      </div>
+    </footer>`;
+
+  function mount(el, html) { const t = document.createElement('template'); t.innerHTML = html.trim(); el.replaceWith(t.content); }
+  const tb = document.querySelector('[data-partial="topbar"]'); if (tb) mount(tb, TOPBAR);
+  const nv = document.querySelector('[data-partial="nav"]'); if (nv) mount(nv, NAV(nv.dataset.active || 'Home'));
+  const ft = document.querySelector('[data-partial="footer"]'); if (ft) mount(ft, FOOTER);
+})();
+
+</script>
+<script>
+// v3 — reveal on scroll + nav scroll state
+(() => {
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if (reveals.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-revealed'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => io.observe(r));
+  }
+
+  const nav = document.querySelector('.topnav');
+  if (nav) {
+    const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Hero carousel — auto-advance + dots
+  const slides = document.querySelectorAll('[data-slide]');
+  const dots = document.querySelectorAll('[data-dot]');
+  const counter = document.querySelector('[data-slide-counter]');
+  if (slides.length) {
+    let current = 0, timer = null;
+    function show(i) {
+      current = (i + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle('is-active', idx === current));
+      dots.forEach((d, idx) => d.classList.toggle('is-active', idx === current));
+      if (counter) counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    function start() { stop(); timer = setInterval(() => show(current + 1), 7000); }
+    function stop() { if (timer) clearInterval(timer); }
+    dots.forEach((d, i) => d.addEventListener('click', () => { show(i); start(); }));
+    show(0); start();
+  }
+})();
+
+</script>
+</body>
+</html>
