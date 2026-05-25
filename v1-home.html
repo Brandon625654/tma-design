@@ -1,0 +1,1834 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TradeMark Africa — Growing Prosperity Through Trade</title>
+<meta name="description" content="TradeMark Africa is an aid-for-trade organisation working across 17 African countries to grow prosperity through trade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+/* TradeMark Africa — design tokens + global styles
+   Brand: brand.md. Wireframe: wireframe.md. Refs: references.md. */
+
+:root {
+  /* PRIMARY brand palette */
+  --tma-blue: #003b71;
+  --tma-green: #70be5c;
+  --tma-red: #ef4846;
+  --tma-yellow: #f0ea46;
+  --tma-grey: #666666;
+
+  /* Backgrounds */
+  --tma-bg-white: #ffffff;
+  --tma-bg-grey:  #f2f2f2;
+
+  /* Derived ink/soft tones */
+  --tma-ink: #0a1a2e;
+  --tma-ink-soft: rgba(10, 26, 46, 0.65);
+  --tma-blue-80: rgba(0, 59, 113, 0.80);
+
+  /* Typography */
+  --tma-font: "Montserrat", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  /* Type scale (golden ratio off 16 body) */
+  --t-mono: 11px;
+  --t-b3: 14px;
+  --t-b2: 16px;
+  --t-b1: 18px;
+  --t-h4: 26px;
+  --t-h3: 42px;
+  --t-h2: 68px;
+  --t-h1: 110px;
+  --t-display: 168px;
+
+  /* Geometry */
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-full: 999px;
+
+  /* Spacing */
+  --s-1: 8px; --s-2: 16px; --s-3: 24px; --s-4: 32px;
+  --s-5: 48px; --s-6: 64px; --s-7: 96px; --s-8: 128px;
+
+  /* Motion */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --dur: 520ms;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { font-family: var(--tma-font); font-size: 16px; color: var(--tma-ink); background: var(--tma-bg-white); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { font-weight: 400; line-height: 1.55; font-size: var(--t-b2); overflow-x: hidden; }
+
+img, video { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+h1, h2, h3, h4 { font-family: var(--tma-font); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; margin: 0; }
+h1 { font-size: var(--t-h1); }
+h2 { font-size: var(--t-h2); }
+h3 { font-size: var(--t-h3); }
+h4 { font-size: var(--t-h4); }
+p { margin: 0; }
+
+/* Yellow highlighter accent */
+.hl { background: linear-gradient(transparent 58%, var(--tma-yellow) 58% 92%, transparent 92%); padding: 0 0.08em; }
+
+/* Containers */
+.container { max-width: 1400px; margin: 0 auto; padding: 0 var(--s-5); }
+.container-wide { max-width: 1600px; margin: 0 auto; padding: 0 var(--s-5); }
+
+/* Placeholder — used while real photography is pending */
+.ph {
+  background:
+    linear-gradient(135deg, rgba(0,59,113,0.92) 0%, rgba(0,59,113,0.78) 50%, rgba(112,190,92,0.45) 100%);
+  color: rgba(255,255,255,0.55);
+  font-family: var(--tma-font);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  position: relative; overflow: hidden;
+}
+.ph::after {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,0.10), transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(112,190,92,0.20), transparent 50%);
+  pointer-events: none;
+}
+.ph.green {
+  background:
+    linear-gradient(135deg, rgba(112,190,92,0.85) 0%, rgba(112,190,92,0.55) 60%, rgba(240,234,70,0.45) 100%);
+  color: rgba(0,59,113,0.7);
+}
+.ph.dark {
+  background:
+    linear-gradient(135deg, #04132a 0%, #061e3f 50%, rgba(0,59,113,0.75) 100%);
+  color: rgba(255,255,255,0.45);
+}
+
+/* Tiny eyebrow label used everywhere */
+.eyebrow {
+  font-family: var(--tma-font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 12px;
+  color: var(--tma-blue);
+}
+.eyebrow::before {
+  content: ""; width: 22px; height: 2px; background: currentColor; display: inline-block;
+}
+.eyebrow.on-dark { color: var(--tma-yellow); }
+
+/* CTA primary (yellow, blue text) */
+.cta-primary {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 16px 26px; border-radius: var(--r-full);
+  background: var(--tma-yellow); color: var(--tma-blue);
+  font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.cta-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(240,234,70,0.25); }
+.cta-ghost {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 16px 26px; border-radius: var(--r-full);
+  border: 1px solid rgba(255,255,255,0.3); color: #fff;
+  font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; transition: background .2s var(--ease);
+}
+.cta-ghost:hover { background: rgba(255,255,255,0.08); }
+.cta-ghost.on-light {
+  border-color: rgba(0,59,113,0.25); color: var(--tma-blue);
+}
+.cta-ghost.on-light:hover { background: rgba(0,59,113,0.06); }
+
+/* ============================================================
+   TOP UTILITY BAR (above the floating nav)
+   ============================================================ */
+.topbar {
+  position: relative;
+  z-index: 50;
+  background: var(--tma-blue);
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.topbar .row {
+  max-width: 1600px; margin: 0 auto; padding: 9px var(--s-5);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar .live {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.85);
+}
+.topbar .live .dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--tma-green);
+  box-shadow: 0 0 10px var(--tma-green);
+}
+.topbar .links { display: flex; gap: 28px; }
+.topbar .links a { color: rgba(255,255,255,0.85); font-weight: 500; }
+.topbar .links a:hover { color: #fff; }
+.topbar .links .icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* ============================================================
+   FLOATING GLASSY PILL NAV (AGRA-style)
+   ============================================================ */
+.nav-wrap {
+  position: absolute; top: 56px; left: 0; right: 0; z-index: 40;
+  pointer-events: none;            /* pill catches events, container doesn't */
+  transition: top .35s var(--ease);
+}
+.nav-wrap.is-fixed {
+  position: fixed; top: 16px;
+}
+.nav-pill {
+  max-width: 1560px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 12px 12px 28px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  pointer-events: auto;
+  transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
+  color: #fff;
+}
+.nav-wrap.is-solid .nav-pill {
+  background: rgba(255,255,255,0.96);
+  border-color: rgba(0,59,113,0.10);
+  color: var(--tma-blue);
+  box-shadow: 0 10px 36px rgba(0,59,113,0.12);
+}
+
+.brand {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-weight: 800; letter-spacing: 0.04em; font-size: 16px;
+  white-space: nowrap;
+}
+.brand .brand-mark {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--tma-yellow);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--tma-blue); font-weight: 800; font-size: 14px;
+}
+.nav-wrap.is-solid .brand .brand-mark {
+  background: var(--tma-blue); color: var(--tma-yellow);
+}
+
+.nav-list {
+  display: flex; gap: 4px; align-items: center;
+}
+.nav-list > li { position: relative; }
+.nav-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 14px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer; color: inherit; opacity: 0.9;
+  transition: opacity .15s, background .15s;
+}
+.nav-link:hover { opacity: 1; background: rgba(255,255,255,0.10); }
+.nav-wrap.is-solid .nav-link:hover { background: rgba(0,59,113,0.06); }
+.nav-link .plus {
+  font-size: 14px; line-height: 1; opacity: 0.6;
+  transition: transform .25s var(--ease);
+}
+.nav-list > li.is-open .nav-link { background: rgba(255,255,255,0.18); opacity: 1; }
+.nav-list > li.is-open .nav-link .plus { transform: rotate(45deg); opacity: 1; }
+.nav-list > li.is-active > .nav-link { color: var(--tma-yellow); }
+.nav-wrap.is-solid .nav-list > li.is-active > .nav-link { color: var(--tma-blue); background: rgba(240,234,70,0.4); }
+
+/* Mega panel — dropdown under each nav item */
+.mega {
+  position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(-8px);
+  min-width: 280px;
+  background: rgba(255,255,255,0.98);
+  border: 1px solid rgba(0,59,113,0.10);
+  border-radius: var(--r-lg);
+  box-shadow: 0 24px 60px rgba(0,59,113,0.16);
+  padding: 14px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .2s var(--ease);
+  z-index: 30;
+}
+.nav-list > li.is-open .mega { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.mega a {
+  display: block; padding: 10px 14px; border-radius: var(--r-sm);
+  font-size: 14px; font-weight: 500; color: var(--tma-blue);
+  text-transform: none; letter-spacing: 0;
+}
+.mega a:hover { background: rgba(0,59,113,0.06); }
+
+/* Right side of pill — search + lang */
+.nav-tools { display: inline-flex; align-items: center; gap: 8px; }
+.nav-tools .icon-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.18);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 14px; color: inherit; transition: background .15s, border-color .15s;
+}
+.nav-wrap.is-solid .nav-tools .icon-btn {
+  border-color: rgba(0,59,113,0.15);
+}
+.nav-tools .icon-btn:hover { background: rgba(255,255,255,0.12); }
+.nav-wrap.is-solid .nav-tools .icon-btn:hover { background: rgba(0,59,113,0.06); }
+.nav-tools .search-cta {
+  width: 44px; height: 44px; background: var(--tma-green); color: var(--tma-blue);
+  border: 0; box-shadow: 0 6px 18px rgba(112,190,92,0.35);
+}
+.nav-tools .search-cta:hover { background: #5fae4d; }
+
+/* ============================================================
+   HERO — full-bleed, splash → 3-story carousel
+   ============================================================ */
+.hero {
+  position: relative; overflow: hidden;
+  height: 100vh; min-height: 720px; max-height: 980px;
+  color: #fff; background: var(--tma-blue);
+  isolation: isolate;
+}
+.hero-splash {
+  position: absolute; inset: 0; z-index: 5;
+  background: var(--tma-blue);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  transition: opacity .8s var(--ease), visibility .8s var(--ease);
+}
+.hero-splash.is-gone { opacity: 0; visibility: hidden; }
+.hero-splash .splash-mark {
+  font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--tma-yellow);
+  font-weight: 700; margin-bottom: 24px;
+  animation: splashIn .8s var(--ease) both;
+}
+.hero-splash h1 {
+  font-size: clamp(48px, 7vw, 96px); font-weight: 800; line-height: 1.0;
+  letter-spacing: -0.025em; max-width: 1100px; padding: 0 var(--s-5);
+  animation: splashIn 1.0s .15s var(--ease) both;
+}
+.hero-splash h1 .hl-yellow {
+  background: linear-gradient(transparent 58%, var(--tma-yellow) 58% 92%, transparent 92%);
+  padding: 0 0.08em;
+}
+@keyframes splashIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Slides — stacked, fade between */
+.hero-slide {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden;
+  transition: opacity 1.1s var(--ease), visibility 1.1s;
+  z-index: 1;
+}
+.hero-slide.is-active { opacity: 1; visibility: visible; z-index: 2; }
+
+/* Slide media (placeholder until photos arrive) */
+.hero-slide .media {
+  position: absolute; inset: 0;
+}
+.hero-slide .media::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,59,113,0.55) 0%, rgba(0,59,113,0.15) 40%, rgba(4,19,42,0.85) 100%);
+}
+
+/* Slow zoom-in effect (Ken Burns) on active slide */
+.hero-slide.is-active .media { animation: kenBurns 12s var(--ease) forwards; }
+@keyframes kenBurns {
+  from { transform: scale(1.0); }
+  to   { transform: scale(1.10); }
+}
+
+/* Slide content */
+.hero-slide .content {
+  position: absolute; left: 0; right: 0; bottom: 96px;
+  z-index: 3;
+  padding: 0 var(--s-5);
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5);
+  align-items: end;
+}
+.hero-slide .content > .left { display: flex; flex-direction: column; gap: 22px; }
+.hero-slide .tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--tma-yellow);
+  padding: 8px 14px 8px 10px; border-radius: var(--r-full);
+  background: rgba(0,59,113,0.5); border: 1px solid rgba(240,234,70,0.45);
+  align-self: flex-start;
+}
+.hero-slide .tag::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--tma-yellow);
+  box-shadow: 0 0 10px var(--tma-yellow);
+}
+.hero-slide h2.headline {
+  font-size: clamp(44px, 5.4vw, 80px);
+  font-weight: 800; line-height: 1.02; letter-spacing: -0.025em;
+  max-width: 720px;
+}
+.hero-slide .headline em { font-style: normal; color: var(--tma-green); }
+
+.hero-slide .right {
+  display: flex; flex-direction: column; align-items: flex-end; gap: var(--s-3);
+}
+.hero-slide .stat-card {
+  background: var(--tma-green); color: var(--tma-blue);
+  border-radius: var(--r-lg);
+  padding: 22px 26px;
+  max-width: 320px;
+}
+.hero-slide .stat-card .v {
+  font-size: 56px; font-weight: 800; line-height: 0.9; letter-spacing: -0.03em;
+}
+.hero-slide .stat-card .l {
+  font-size: 13px; font-weight: 600; margin-top: 8px; line-height: 1.35;
+}
+.hero-slide .person-card {
+  background: rgba(255,255,255,0.96); color: var(--tma-blue);
+  border-radius: var(--r-lg); padding: 18px 22px;
+  max-width: 380px;
+  position: relative;
+}
+.hero-slide .person-card .quote {
+  font-size: 15px; font-style: italic; line-height: 1.4; font-weight: 500;
+}
+.hero-slide .person-card .meta {
+  margin-top: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: rgba(0,59,113,0.7);
+}
+.hero-slide .actions {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;
+}
+
+/* Hero control rail (counter, dots, pause, prev/next) */
+.hero-controls {
+  position: absolute; left: 0; right: 0; bottom: 24px; z-index: 4;
+  padding: 0 var(--s-5);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(255,255,255,0.75);
+}
+.hero-controls .dots { display: flex; gap: 6px; }
+.hero-controls .dots button {
+  width: 28px; height: 3px; background: rgba(255,255,255,0.25);
+  border-radius: 2px; cursor: pointer; transition: background .2s;
+}
+.hero-controls .dots button.is-active { background: var(--tma-yellow); width: 42px; }
+.hero-controls .pause-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 16px; border-radius: var(--r-full);
+  border: 1px solid rgba(255,255,255,0.22);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+}
+.hero-controls .pause-icon { font-size: 10px; }
+
+/* Scroll cue inside hero */
+.hero .scroll-cue {
+  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 4;
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255,255,255,0.75); font-weight: 600;
+}
+
+/* ============================================================
+   SECTION 2 — KEY NUMBERS DASHBOARD
+   ============================================================ */
+.numbers {
+  background: var(--tma-bg-white); padding: var(--s-8) 0;
+  position: relative;
+}
+.numbers .header {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: var(--s-6); align-items: end; margin-bottom: var(--s-6);
+}
+.numbers h2 {
+  font-size: clamp(48px, 5vw, 80px); line-height: 0.96; letter-spacing: -0.03em;
+  color: var(--tma-blue);
+}
+.numbers .lede {
+  font-size: var(--t-b1); line-height: 1.55; color: var(--tma-ink-soft); max-width: 460px;
+}
+.numbers .grid {
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
+}
+.num-card {
+  border-radius: var(--r-lg); padding: 36px 30px; min-height: 280px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; overflow: hidden;
+  transition: transform .25s var(--ease);
+}
+.num-card:hover { transform: translateY(-4px); }
+.num-card .v { font-size: 88px; font-weight: 800; line-height: 0.88; letter-spacing: -0.04em; }
+.num-card .l { font-size: 15px; font-weight: 500; line-height: 1.45; }
+.num-card .src { font-size: 12px; font-style: italic; opacity: 0.7; margin-top: 12px; padding-top: 12px; border-top: 1px solid currentColor; border-color: rgba(255,255,255,0.25); }
+
+.num-card.blue   { background: var(--tma-blue);  color: #fff;            grid-column: span 4; }
+.num-card.green  { background: var(--tma-green); color: var(--tma-blue); grid-column: span 4; }
+.num-card.green .src { border-color: rgba(0,59,113,0.25); }
+.num-card.yellow { background: var(--tma-yellow);color: var(--tma-blue); grid-column: span 4; }
+.num-card.yellow .src { border-color: rgba(0,59,113,0.25); }
+.num-card.featured { grid-column: span 6; grid-row: span 2; min-height: 600px; }
+.num-card.featured .v { font-size: 168px; }
+.num-card.span6 { grid-column: span 6; }
+.num-card.span3 { grid-column: span 3; }
+
+/* ============================================================
+   SECTION 3 — UPCOMING EVENTS
+   ============================================================ */
+.events {
+  background: var(--tma-bg-grey); padding: var(--s-8) 0;
+}
+.events .header {
+  display: flex; align-items: end; justify-content: space-between;
+  margin-bottom: var(--s-6); gap: var(--s-4);
+}
+.events h2 {
+  font-size: clamp(48px, 5vw, 80px); line-height: 0.96; letter-spacing: -0.03em;
+  color: var(--tma-blue);
+}
+.events .grid {
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 16px;
+}
+.event-card {
+  background: #fff; border-radius: var(--r-lg); padding: 28px;
+  display: flex; flex-direction: column; gap: 20px; min-height: 360px;
+  cursor: pointer; transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  position: relative; overflow: hidden;
+}
+.event-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(0,59,113,0.10); }
+.event-card.featured {
+  background: var(--tma-blue); color: #fff; min-height: 440px; padding: 40px;
+}
+.event-card.featured::after {
+  content: ""; position: absolute; top: -80px; right: -80px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(112,190,92,0.4), transparent 70%);
+}
+.event-card .pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: var(--r-full);
+  background: rgba(0,59,113,0.08); color: var(--tma-blue);
+  align-self: flex-start;
+}
+.event-card.featured .pill { background: var(--tma-green); color: var(--tma-blue); }
+.event-card .date {
+  display: flex; align-items: baseline; gap: 14px; position: relative; z-index: 2;
+}
+.event-card .date .d {
+  font-size: 88px; font-weight: 800; line-height: 0.85; letter-spacing: -0.04em;
+  color: var(--tma-blue);
+}
+.event-card.featured .date .d { color: var(--tma-yellow); font-size: 140px; }
+.event-card .date .m {
+  font-size: 14px; font-weight: 700; line-height: 1.2; letter-spacing: 0.08em;
+}
+.event-card.featured .date .m { font-size: 20px; }
+.event-card .title {
+  font-size: 19px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em;
+  position: relative; z-index: 2;
+}
+.event-card.featured .title { font-size: 30px; }
+.event-card .where {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  color: rgba(10,26,46,0.6); margin-top: auto; position: relative; z-index: 2;
+}
+.event-card.featured .where { color: rgba(255,255,255,0.7); }
+.event-card .register {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--tma-blue); border-bottom: 2px solid currentColor; align-self: flex-start;
+  padding-bottom: 2px;
+}
+.event-card.featured .register { color: var(--tma-yellow); }
+
+/* ============================================================
+   SECTION 4 — HOW WE WORK (programmes)
+   ============================================================ */
+.programmes {
+  background: var(--tma-bg-white); padding: var(--s-8) 0;
+}
+.programmes .header {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6);
+  align-items: end; margin-bottom: var(--s-6);
+}
+.programmes h2 {
+  font-size: clamp(48px, 5vw, 80px); line-height: 0.96; letter-spacing: -0.03em;
+  color: var(--tma-blue);
+}
+.programmes .lede {
+  font-size: var(--t-b1); line-height: 1.55; color: var(--tma-ink-soft); max-width: 460px;
+}
+
+/* AGRA-inspired full-bleed image cards row */
+.prog-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+}
+.prog-card {
+  position: relative; aspect-ratio: 3/5; overflow: hidden;
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  isolation: isolate;
+}
+.prog-card .media { position: absolute; inset: 0; transition: transform .6s var(--ease); }
+.prog-card:hover .media { transform: scale(1.06); }
+.prog-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(0,59,113,0.10) 0%, rgba(0,59,113,0.65) 60%, rgba(4,19,42,0.95) 100%);
+}
+.prog-card .body {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  padding: 28px 24px;
+  color: #fff;
+}
+.prog-card .eyebrow-tiny {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--tma-yellow); margin-bottom: 10px;
+}
+.prog-card h3 {
+  font-size: 24px; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em;
+}
+.prog-card .desc {
+  margin-top: 12px;
+  font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.85);
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height .35s var(--ease), opacity .25s var(--ease), margin .35s var(--ease);
+}
+.prog-card:hover .desc { max-height: 200px; opacity: 1; margin-top: 12px; }
+.prog-card .more {
+  margin-top: 14px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--tma-green);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.prog-card .more::after { content: "→"; }
+.prog-grid + .see-all {
+  margin-top: var(--s-6); text-align: center;
+}
+
+/* ============================================================
+   SECTION 5 — IMPACT (stories)
+   ============================================================ */
+.impact {
+  background: var(--tma-blue); color: #fff; padding: var(--s-8) 0;
+  position: relative; overflow: hidden;
+}
+.impact::before {
+  content: ""; position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(112,190,92,0.25), transparent 70%);
+  pointer-events: none;
+}
+.impact .header {
+  display: flex; align-items: end; justify-content: space-between;
+  margin-bottom: var(--s-6); gap: var(--s-4); position: relative;
+}
+.impact h2 {
+  font-size: clamp(48px, 5vw, 80px); line-height: 0.96; letter-spacing: -0.03em;
+}
+.impact .stories {
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 16px;
+  position: relative;
+}
+.story-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  cursor: pointer; transition: background .25s, transform .25s var(--ease);
+}
+.story-card:hover { background: rgba(255,255,255,0.10); transform: translateY(-4px); }
+.story-card .media { aspect-ratio: 16/11; }
+.story-card.featured .media { aspect-ratio: 16/10; }
+.story-card .body { padding: 24px 22px 28px; }
+.story-card .tag {
+  display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--tma-green); margin-bottom: 12px;
+}
+.story-card h3 {
+  font-size: 22px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em;
+}
+.story-card.featured h3 { font-size: 30px; }
+.story-card .meta {
+  margin-top: 18px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.55);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.impact .footer-row {
+  margin-top: var(--s-6); padding-top: var(--s-4);
+  border-top: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+/* ============================================================
+   SECTION 6 — OUR STORY (with timeline)
+   ============================================================ */
+.story {
+  background: var(--tma-bg-grey); padding: var(--s-8) 0;
+  position: relative;
+}
+.story .header {
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--s-6);
+  align-items: end; margin-bottom: var(--s-7);
+}
+.story h2 {
+  font-size: clamp(48px, 5vw, 80px); line-height: 0.96; letter-spacing: -0.03em;
+  color: var(--tma-blue);
+}
+.story .lede {
+  font-size: var(--t-b1); line-height: 1.55; color: var(--tma-ink-soft); max-width: 480px;
+}
+
+/* TMA timeline (AGRA-inspired but our own arc) */
+.timeline {
+  position: relative;
+}
+.timeline .track {
+  position: absolute; left: 0; right: 0; top: 42px; height: 3px;
+  background: linear-gradient(90deg,
+    var(--tma-blue) 0%,
+    var(--tma-green) 33%,
+    var(--tma-yellow) 66%,
+    var(--tma-red) 100%);
+  border-radius: 2px;
+}
+.timeline-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  position: relative;
+}
+.milestone {
+  position: relative; padding-top: 80px;
+}
+.milestone::before {
+  content: ""; position: absolute; top: 32px; left: 0;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; border: 4px solid var(--tma-blue);
+  box-shadow: 0 0 0 4px var(--tma-bg-grey), 0 4px 12px rgba(0,59,113,0.2);
+}
+.milestone:nth-child(2)::before { border-color: var(--tma-green); }
+.milestone:nth-child(3)::before { border-color: var(--tma-yellow); }
+.milestone:nth-child(4)::before { border-color: var(--tma-red); }
+.milestone .year {
+  font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: var(--tma-blue);
+  margin-bottom: 8px;
+}
+.milestone .phase {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--tma-blue); opacity: 0.6; margin-bottom: 12px;
+}
+.milestone .desc {
+  font-size: 15px; line-height: 1.5; color: var(--tma-ink-soft);
+}
+
+/* ============================================================
+   FOOTER — 4 columns (blueprint)
+   ============================================================ */
+.site-footer {
+  background: var(--tma-blue); color: #fff;
+  position: relative;
+}
+.donor-strip {
+  background: var(--tma-bg-grey); color: var(--tma-blue);
+  padding: var(--s-5) 0; text-align: center;
+}
+.donor-strip .label {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--tma-blue); margin-bottom: 20px; opacity: 0.6;
+}
+.donor-strip .logos {
+  display: flex; align-items: center; justify-content: center; gap: 56px;
+  flex-wrap: wrap;
+}
+.donor-strip .logo-ph {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: rgba(0,59,113,0.5);
+  border: 1px dashed rgba(0,59,113,0.25); border-radius: 8px;
+  padding: 12px 20px;
+}
+
+.newsletter-band {
+  background: var(--tma-green); color: var(--tma-blue);
+  padding: var(--s-7) 0;
+}
+.newsletter-band .row {
+  display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--s-6); align-items: center;
+}
+.newsletter-band h3 {
+  font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em;
+}
+.newsletter-band form { display: flex; border-bottom: 2px solid var(--tma-blue); }
+.newsletter-band input {
+  flex: 1; background: transparent; border: 0; outline: 0;
+  padding: 16px 0; font-size: 18px; font-family: var(--tma-font); color: var(--tma-blue);
+  font-weight: 500;
+}
+.newsletter-band input::placeholder { color: rgba(0,59,113,0.5); }
+.newsletter-band button {
+  background: var(--tma-blue); color: var(--tma-yellow);
+  border-radius: var(--r-full); padding: 14px 26px;
+  font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.newsletter-band button:hover { background: #00264a; }
+
+.footer-cols {
+  padding: var(--s-7) 0 var(--s-4);
+}
+.footer-cols .grid {
+  display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: var(--s-5);
+}
+.footer-cols .brand-col p {
+  font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.7); max-width: 320px; margin-top: 20px;
+}
+.footer-cols .socials { display: flex; gap: 10px; margin-top: 24px; }
+.footer-cols .socials span {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+}
+.footer-cols h5 {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--tma-yellow); margin-bottom: 18px;
+}
+.footer-cols ul li { margin-bottom: 10px; }
+.footer-cols ul a { font-size: 14px; color: rgba(255,255,255,0.8); }
+.footer-cols ul a:hover { color: #fff; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding: var(--s-3) 0;
+  font-size: 12px; color: rgba(255,255,255,0.55);
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+/* ============================================================
+   Reveal-on-scroll
+   ============================================================ */
+[data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+[data-reveal].is-revealed { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   INNER PAGES — shared chrome (about, careers, press,
+   procurement, senior management, etc.)
+   ============================================================ */
+
+.page-hero {
+  background: var(--tma-blue); color: #fff;
+  padding: 180px 0 96px;
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ""; position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(112,190,92,0.25), transparent 70%);
+  pointer-events: none;
+}
+.page-hero::after {
+  content: ""; position: absolute; bottom: -100px; left: -100px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,234,70,0.15), transparent 70%);
+  pointer-events: none;
+}
+.page-hero .crumbs {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6); margin-bottom: 24px;
+  position: relative; z-index: 2;
+}
+.page-hero .crumbs a { color: rgba(255,255,255,0.6); }
+.page-hero .crumbs a:hover { color: var(--tma-yellow); }
+.page-hero .grid {
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s-5); align-items: end;
+  position: relative; z-index: 2;
+}
+.page-hero h1 {
+  font-size: clamp(56px, 7vw, 110px); line-height: 0.96; letter-spacing: -0.03em;
+  margin-top: 18px;
+}
+.page-hero .lede {
+  font-size: var(--t-b1); line-height: 1.55; color: rgba(255,255,255,0.78);
+  max-width: 460px;
+}
+
+.section { padding: var(--s-8) 0; background: var(--tma-bg-white); }
+.section.grey { background: var(--tma-bg-grey); }
+.section.blue { background: var(--tma-blue); color: #fff; }
+.section h2 {
+  font-size: clamp(40px, 4vw, 68px); line-height: 1.02; letter-spacing: -0.025em;
+  color: var(--tma-blue);
+}
+.section.blue h2 { color: #fff; }
+.section .section-head {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6);
+  align-items: end; margin-bottom: var(--s-6);
+}
+.section .lede {
+  font-size: var(--t-b1); line-height: 1.55; color: var(--tma-ink-soft); max-width: 480px;
+}
+.section.blue .lede { color: rgba(255,255,255,0.78); }
+
+/* Value / MVV cards */
+.value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.value-card {
+  background: #fff; border: 1px solid rgba(0,59,113,0.10);
+  border-radius: var(--r-lg); padding: 36px 32px;
+  position: relative; overflow: hidden;
+}
+.value-card .num {
+  font-size: 64px; font-weight: 800; letter-spacing: -0.04em; line-height: 0.9;
+  color: var(--tma-yellow); opacity: 0.6;
+  position: absolute; right: 24px; top: 18px;
+}
+.value-card .icon-blob {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--tma-green); color: var(--tma-blue);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 800; margin-bottom: 20px;
+}
+.value-card h3 { font-size: 22px; font-weight: 700; color: var(--tma-blue); margin-bottom: 16px; }
+.value-card p { font-size: 15px; line-height: 1.55; color: var(--tma-ink-soft); }
+
+/* Leadership / team grid */
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.team-grid.three { grid-template-columns: repeat(3, 1fr); }
+.profile {
+  background: #fff; border-radius: var(--r-lg); overflow: hidden;
+  border: 1px solid rgba(0,59,113,0.08);
+  cursor: pointer; transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.profile:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,59,113,0.12); }
+.profile .photo { aspect-ratio: 4/5; }
+.profile .body { padding: 22px 22px 24px; }
+.profile .role {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--tma-green); margin-bottom: 10px;
+}
+.profile h4 { font-size: 19px; font-weight: 700; color: var(--tma-blue); line-height: 1.2; margin-bottom: 6px; }
+.profile .title { font-size: 13px; color: var(--tma-ink-soft); line-height: 1.4; }
+.profile .links { margin-top: 14px; display: flex; gap: 10px; }
+.profile .links a {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--tma-blue); border-bottom: 2px solid var(--tma-yellow); padding-bottom: 2px;
+}
+
+/* Listing rows (press, tenders, jobs) */
+.list-rows { border-top: 1px solid rgba(0,59,113,0.12); }
+.list-row {
+  display: grid; align-items: center; gap: var(--s-4);
+  padding: 28px 0; border-bottom: 1px solid rgba(0,59,113,0.12);
+  transition: padding-left .25s var(--ease), background .25s var(--ease);
+  cursor: pointer;
+}
+.list-row:hover { padding-left: 18px; background: linear-gradient(90deg, rgba(112,190,92,0.06), transparent 60%); }
+.list-row.press  { grid-template-columns: 110px 2.4fr 1fr 140px; }
+.list-row.tender { grid-template-columns: 110px 2.4fr 1fr 1fr 110px 140px; }
+.list-row .date {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--tma-ink-soft);
+}
+.list-row .row-title {
+  font-size: 20px; font-weight: 700; line-height: 1.2; color: var(--tma-blue); letter-spacing: -0.01em;
+}
+.list-row .meta { font-size: 13px; color: var(--tma-ink-soft); }
+.list-row .arrow {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--tma-blue); text-align: right;
+}
+.list-row .arrow::after { content: " →"; margin-left: 6px; }
+
+.status-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: var(--r-full);
+}
+.status-pill.open    { background: rgba(112,190,92,0.22); color: #2e6b1c; }
+.status-pill.closing { background: rgba(240,234,70,0.45); color: #7a6f08; }
+.status-pill.closed  { background: rgba(102,102,102,0.20); color: #555; }
+.status-pill.urgent  { background: rgba(239,72,70,0.18); color: #b1342c; }
+.status-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* Filter chips */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--s-5); }
+.chip {
+  padding: 10px 16px; border-radius: var(--r-full);
+  border: 1px solid rgba(0,59,113,0.15);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--tma-blue); background: #fff; cursor: pointer; transition: background .15s;
+}
+.chip:hover { background: rgba(0,59,113,0.05); }
+.chip.active { background: var(--tma-blue); color: var(--tma-yellow); border-color: var(--tma-blue); }
+
+/* Featured press release block */
+.featured-press {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 0;
+  background: var(--tma-blue); color: #fff; border-radius: var(--r-lg);
+  overflow: hidden; margin-bottom: var(--s-6); position: relative;
+}
+.featured-press::before {
+  content: ""; position: absolute; top: -120px; right: -120px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,234,70,0.20), transparent 70%);
+  pointer-events: none;
+}
+.featured-press .media { aspect-ratio: 4/3; }
+.featured-press .body {
+  padding: var(--s-6) var(--s-5);
+  display: flex; flex-direction: column; gap: 20px; justify-content: center;
+  position: relative; z-index: 1;
+}
+.featured-press .pill {
+  align-self: flex-start;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: var(--r-full);
+  background: var(--tma-yellow); color: var(--tma-blue);
+}
+.featured-press h2 {
+  font-size: clamp(32px, 3vw, 48px); line-height: 1.1; letter-spacing: -0.02em; color: #fff;
+}
+.featured-press .meta {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+}
+
+/* Job card */
+.job-card {
+  background: #fff; border: 1px solid rgba(0,59,113,0.10);
+  border-radius: var(--r-lg); padding: 28px 30px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 180px; gap: var(--s-4);
+  align-items: center; cursor: pointer;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  margin-bottom: 12px;
+}
+.job-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,59,113,0.10); }
+.job-card .role-block .dept {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--tma-green); margin-bottom: 8px;
+}
+.job-card .role-block .title {
+  font-size: 22px; font-weight: 700; color: var(--tma-blue); letter-spacing: -0.01em; line-height: 1.2;
+}
+.job-card .info { font-size: 13px; color: var(--tma-ink-soft); font-weight: 600; }
+.job-card .info .l { color: rgba(10,26,46,0.45); font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; font-size: 10px; display: block; margin-bottom: 4px; }
+.job-card .apply {
+  background: var(--tma-yellow); color: var(--tma-blue);
+  padding: 12px 22px; border-radius: var(--r-full); border: 0;
+  font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  text-align: center;
+}
+.job-card .apply::after { content: " →"; }
+
+/* Prose (about TMA) */
+.prose { max-width: 760px; font-size: 18px; line-height: 1.7; color: var(--tma-ink); }
+.prose p { margin-bottom: 22px; }
+.prose p strong { color: var(--tma-blue); font-weight: 700; }
+.prose .pull {
+  border-left: 4px solid var(--tma-yellow);
+  padding: 8px 0 8px 24px; margin: 32px 0;
+  font-size: 24px; font-weight: 700; color: var(--tma-blue); line-height: 1.35; letter-spacing: -0.01em;
+}
+
+/* Stat band (compact) */
+.stat-band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.stat-band .stat {
+  background: #fff; border-radius: var(--r-lg); padding: 32px 28px;
+  border: 1px solid rgba(0,59,113,0.08);
+}
+.stat-band .stat .v {
+  font-size: 56px; font-weight: 800; line-height: 0.88; letter-spacing: -0.03em;
+  color: var(--tma-blue);
+}
+.stat-band .stat:nth-child(2) .v { color: var(--tma-green); }
+.stat-band .stat:nth-child(3) .v { color: var(--tma-red); }
+.stat-band .stat:nth-child(4) .v { color: var(--tma-blue); }
+.stat-band .stat .l {
+  margin-top: 14px; font-size: 14px; color: var(--tma-ink-soft); line-height: 1.4;
+}
+
+/* Callout row */
+.callout-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: var(--s-5); }
+.callout { padding: 32px 36px; border-radius: var(--r-lg); background: var(--tma-blue); color: #fff; }
+.callout.green { background: var(--tma-green); color: var(--tma-blue); }
+.callout.yellow { background: var(--tma-yellow); color: var(--tma-blue); }
+.callout h4 { font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 12px; }
+.callout p { font-size: 14px; line-height: 1.5; margin-bottom: 18px; opacity: 0.9; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP UTILITY BAR
+     ============================================================ -->
+<div class="topbar">
+  <div class="row">
+    <span class="live"><span class="dot"></span>Africa Trade Pulse · +7.2% intra-African trade Q1 2026</span>
+    <span class="links">
+      <a href="pages/contact-us.html">Contact Us</a>
+      <a href="pages/careers.html">Careers</a>
+      <a href="pages/procurement.html">Procurement</a>
+      <a href="#search" class="icon" aria-label="Search">⌕</a>
+    </span>
+  </div>
+</div>
+
+<!-- ============================================================
+     FLOATING GLASSY PILL NAV (AGRA-style)
+     ============================================================ -->
+<div class="nav-wrap" data-header>
+  <nav class="nav-pill">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">T</span>
+      <span>TRADEMARK AFRICA</span>
+    </a>
+
+    <ul class="nav-list">
+      <li class="is-active"><a class="nav-link" href="index.html">Home</a></li>
+
+      <li data-menu>
+        <a class="nav-link" href="pages/about-us.html">About Us <span class="plus">+</span></a>
+        <div class="mega" data-panel>
+          <a href="pages/about-us.html">About TMA</a>
+          <a href="pages/theory-of-change.html">Our Theory of Change</a>
+          <a href="pages/donors.html">Donors &amp; Funders</a>
+          <a href="pages/governance.html">Governance</a>
+          <a href="pages/faqs.html">FAQs</a>
+        </div>
+      </li>
+
+      <li data-menu>
+        <a class="nav-link" href="pages/impact.html">Impact <span class="plus">+</span></a>
+        <div class="mega" data-panel>
+          <a href="pages/impact-results.html">Impact Results</a>
+          <a href="pages/impact.html">Impact Overview</a>
+          <a href="pages/impact-stories.html">Impact Stories Highlight</a>
+        </div>
+      </li>
+
+      <li data-menu>
+        <a class="nav-link" href="pages/our-work.html">Our Work <span class="plus">+</span></a>
+        <div class="mega" data-panel>
+          <a href="pages/programme-areas.html">Programme Areas</a>
+          <a href="pages/africa-map.html">Africa Map</a>
+          <a href="pages/projects.html">Projects Hub</a>
+        </div>
+      </li>
+
+      <li data-menu>
+        <a class="nav-link" href="pages/resources.html">Resources <span class="plus">+</span></a>
+        <div class="mega" data-panel>
+          <a href="pages/publications.html">Publications &amp; Briefs</a>
+          <a href="pages/annual-reports.html">Annual Reports</a>
+          <a href="pages/evaluations.html">Evaluations</a>
+          <a href="pages/strategy.html">Strategy 2023–2030</a>
+          <a href="pages/branding-guidelines.html">Branding Guidelines</a>
+        </div>
+      </li>
+
+      <li data-menu>
+        <a class="nav-link" href="pages/news-room.html">News Room <span class="plus">+</span></a>
+        <div class="mega" data-panel>
+          <a href="pages/impact-stories.html">Impact Stories</a>
+          <a href="pages/trade-news.html">Trade News Round Up</a>
+          <a href="pages/blog.html">Blog</a>
+          <a href="pages/podcasts.html">Podcasts &amp; Videos</a>
+          <a href="pages/press-releases.html">Press Releases</a>
+          <a href="pages/events.html">Events</a>
+          <a href="pages/newsletter.html">Newsletter</a>
+        </div>
+      </li>
+    </ul>
+
+    <div class="nav-tools">
+      <button class="icon-btn" aria-label="Language"><span aria-hidden="true">🌐</span></button>
+      <button class="icon-btn search-cta" aria-label="Search"><span aria-hidden="true">⌕</span></button>
+    </div>
+  </nav>
+</div>
+
+<!-- ============================================================
+     HERO — splash + 3-story auto-advancing carousel
+     ============================================================ -->
+<section class="hero">
+
+  <!-- Opening splash (fades after 2.4s) -->
+  <div class="hero-splash" data-splash>
+    <div>
+      <div class="splash-mark">TradeMark Africa</div>
+      <h1>Growing Prosperity<br>Through <span class="hl-yellow">Trade.</span></h1>
+    </div>
+  </div>
+
+  <!-- Slide 1 — Esther / Malaba -->
+  <div class="hero-slide is-active" data-slide>
+    <div class="media ph">PORTRAIT · Esther Nakitende · Cross-border trader · Malaba border</div>
+    <div class="content">
+      <div class="left">
+        <span class="tag">Inclusive Trade · Uganda → Kenya</span>
+        <h2 class="headline">Her truck clears Malaba in <em>27 minutes</em>—not three days.</h2>
+        <div class="actions">
+          <a class="cta-primary" href="pages/impact-stories.html">Read the full story →</a>
+          <a class="cta-ghost" href="#"><span>▶</span> Watch · 2:48</a>
+        </div>
+      </div>
+      <div class="right">
+        <div class="stat-card">
+          <div class="v">—96%</div>
+          <div class="l">Border wait time at Malaba<br>vs. 2010 baseline</div>
+        </div>
+        <div class="person-card">
+          <div class="quote">"I used to sleep three nights in my truck. Now I'm home for dinner."</div>
+          <div class="meta">Esther Nakitende · Trader, Malaba</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2 — Tema Port -->
+  <div class="hero-slide" data-slide>
+    <div class="media ph green">SCENE · Tema Port at dawn · Cranes, cargo, container yard</div>
+    <div class="content">
+      <div class="left">
+        <span class="tag">Physical Connectivity · Ghana</span>
+        <h2 class="headline">Tema Port: from 14 days <em>to 36 hours</em>.</h2>
+        <div class="actions">
+          <a class="cta-primary" href="pages/impact-stories.html">Read the full story →</a>
+          <a class="cta-ghost" href="#"><span>▶</span> Watch · 3:12</a>
+        </div>
+      </div>
+      <div class="right">
+        <div class="stat-card">
+          <div class="v">—89%</div>
+          <div class="l">Container dwell time at Tema<br>2021 → 2025</div>
+        </div>
+        <div class="person-card">
+          <div class="quote">"Last year, my container sat for two weeks. This morning it left in six hours."</div>
+          <div class="meta">Kwame Asante · Exporter, Tema</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3 — Rusumo / paperless border -->
+  <div class="hero-slide" data-slide>
+    <div class="media ph dark">SCENE · Rusumo border post · Trucks, queue, digital screens</div>
+    <div class="content">
+      <div class="left">
+        <span class="tag">Digital Trade · Rwanda · DRC</span>
+        <h2 class="headline">No signatures. No stamps. <em>Trust, rebuilt.</em></h2>
+        <div class="actions">
+          <a class="cta-primary" href="pages/impact-stories.html">Read the full story →</a>
+          <a class="cta-ghost" href="#"><span>▶</span> Watch · 4:01</a>
+        </div>
+      </div>
+      <div class="right">
+        <div class="stat-card">
+          <div class="v">+312%</div>
+          <div class="l">Cross-border SME enrolment<br>at Rusumo, 2024–2026</div>
+        </div>
+        <div class="person-card">
+          <div class="quote">"Paperless borders rebuilt trust in places where corruption was the assumption."</div>
+          <div class="meta">Aimée Mukamana · Customs lead, Rusumo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero controls -->
+  <div class="hero-controls">
+    <span data-slide-counter>01 / 03</span>
+    <div class="dots">
+      <button data-dot aria-label="Story 1"></button>
+      <button data-dot aria-label="Story 2"></button>
+      <button data-dot aria-label="Story 3"></button>
+    </div>
+    <button class="pause-btn" data-pause aria-pressed="false">
+      <span class="pause-icon">❚❚</span><span class="pause-text">Pause</span>
+    </button>
+  </div>
+
+  <div class="scroll-cue">Scroll to explore</div>
+</section>
+
+<!-- ============================================================
+     SECTION 2 — KEY NUMBERS DASHBOARD
+     ============================================================ -->
+<section class="numbers">
+  <div class="container-wide">
+    <div class="header" data-reveal>
+      <div>
+        <span class="eyebrow">02 · Key Numbers Dashboard</span>
+        <h2 style="margin-top:18px">TradeMark Africa <br>in <span class="hl">Numbers</span>.</h2>
+      </div>
+      <p class="lede">15+ years on the ground. Numbers traceable to public evaluations — filter by programme, country, year, every figure links back to the source.</p>
+    </div>
+
+    <div class="grid" data-reveal>
+      <div class="num-card blue featured">
+        <div>
+          <div class="v" data-count="1.3" data-prefix="$" data-suffix="B" data-decimals="1">$0.0B</div>
+        </div>
+        <div>
+          <div class="l" style="font-size:22px; max-width:380px;">Mobilised in development finance for African trade infrastructure and reform, 2010–2025.</div>
+          <div class="src">Source: TMA Annual Review Report, 2024</div>
+        </div>
+      </div>
+
+      <div class="num-card green span6">
+        <div class="v" data-count="100" data-suffix="+">0+</div>
+        <div>
+          <div class="l">Trade systems digitalised across public and private sector between 2010 and 2024, cutting average transaction costs by 50%.</div>
+          <div class="src">Source: EDI Global Independent Evaluation of TMA ICT Projects, 2024</div>
+        </div>
+      </div>
+
+      <div class="num-card yellow span3">
+        <div class="v" data-count="21">0</div>
+        <div>
+          <div class="l">Border posts modernised to one-stop, 2011–2024.</div>
+          <div class="src">Source: TMA Annual Review, 2024</div>
+        </div>
+      </div>
+
+      <div class="num-card blue span3">
+        <div class="v" data-count="51" data-suffix="%">0%</div>
+        <div>
+          <div class="l">Faster Mombasa port vs. 2010 baseline.</div>
+          <div class="src">Source: KPA × TMA Joint Evaluation, 2024</div>
+        </div>
+      </div>
+
+      <div class="num-card green span6">
+        <div class="v" data-count="85" data-suffix="K+">0K+</div>
+        <div>
+          <div class="l">Traders moved to formal trade through cooperatives, training and digital enrolment.</div>
+          <div class="src">Source: TMA Programme Reports, 2024</div>
+        </div>
+      </div>
+
+      <div class="num-card yellow span3">
+        <div class="v" data-count="47" data-suffix="%">0%</div>
+        <div>
+          <div class="l">Programmes led by women &amp; youth.</div>
+          <div class="src">Active programmes, 2026</div>
+        </div>
+      </div>
+
+      <div class="num-card blue span3">
+        <div class="v" data-count="17">0</div>
+        <div>
+          <div class="l">African countries with active TMA operations.</div>
+          <div class="src">Strategy 2023–2030</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 3 — UPCOMING EVENTS
+     ============================================================ -->
+<section class="events">
+  <div class="container-wide">
+    <div class="header" data-reveal>
+      <div>
+        <span class="eyebrow">03 · Upcoming Events</span>
+        <h2 style="margin-top:18px">Where the conversation<br><span class="hl">happens</span>.</h2>
+      </div>
+      <div style="display:flex; gap:14px;">
+        <a class="cta-primary" href="pages/events.html">All events →</a>
+        <a class="cta-ghost on-light" href="pages/press-releases.html">Past events</a>
+      </div>
+    </div>
+
+    <div class="grid" data-reveal>
+      <article class="event-card featured">
+        <span class="pill">● Flagship · 3-day forum</span>
+        <div class="date">
+          <span class="d">14</span>
+          <span class="m">MAY<br>2026</span>
+        </div>
+        <h3 class="title">Africa Trade Development Forum</h3>
+        <div class="where">Nairobi, Kenya · KICC · Hybrid (in-person + livestream)</div>
+        <a class="register" href="#">Register →</a>
+      </article>
+
+      <article class="event-card">
+        <span class="pill">Roundtable</span>
+        <div class="date">
+          <span class="d">02</span>
+          <span class="m">JUN<br>2026</span>
+        </div>
+        <h3 class="title">West Africa Digital Customs Roundtable</h3>
+        <div class="where">Accra, Ghana</div>
+        <a class="register" href="#">Register →</a>
+      </article>
+
+      <article class="event-card">
+        <span class="pill">Workshop</span>
+        <div class="date">
+          <span class="d">11</span>
+          <span class="m">JUN<br>2026</span>
+        </div>
+        <h3 class="title">Women in Cross-Border Trade · Networking Lab</h3>
+        <div class="where">Kigali, Rwanda · Half-day</div>
+        <a class="register" href="#">Register →</a>
+      </article>
+
+      <article class="event-card">
+        <span class="pill">Briefing</span>
+        <div class="date">
+          <span class="d">23</span>
+          <span class="m">JUL<br>2026</span>
+        </div>
+        <h3 class="title">Low-Carbon Logistics: TMA × IMO Briefing</h3>
+        <div class="where">Online · 90 minutes</div>
+        <a class="register" href="#">Register →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4 — HOW WE WORK (programme areas, AGRA-style)
+     ============================================================ -->
+<section class="programmes">
+  <div class="container-wide">
+    <div class="header" data-reveal>
+      <div>
+        <span class="eyebrow">04 · How We Work</span>
+        <h2 style="margin-top:18px">Six programme areas. <br>One <span class="hl">theory of change</span>.</h2>
+      </div>
+      <p class="lede">We invest where trade is stuck — across infrastructure, policy, digital systems, and the people who move goods. One outcome: more trade, fairer trade, sustainable trade.</p>
+    </div>
+
+    <div class="prog-grid" data-reveal>
+      <article class="prog-card">
+        <div class="media ph">PHOTO · Customs hall, policy signing</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Trade &amp; Investment Environment</h3>
+          <div class="desc">Policy reform, ratification of trade agreements, and regional alignment that unlocks markets.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+
+      <article class="prog-card">
+        <div class="media ph green">PHOTO · Single-window terminal, customs officers</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Digital Trade Systems</h3>
+          <div class="desc">Customs platforms, electronic single windows, and paperless borders that work at scale.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+
+      <article class="prog-card">
+        <div class="media ph">PHOTO · Cargo trucks at OSBP, port cranes</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Physical Connectivity</h3>
+          <div class="desc">Ports, corridors, and one-stop border posts that move goods faster — and cheaper.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+
+      <article class="prog-card">
+        <div class="media ph dark">PHOTO · Quality lab inspection, certified produce</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Quality &amp; Value of Goods</h3>
+          <div class="desc">Standards harmonisation and agri-export competitiveness — certified production at origin.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="prog-grid" data-reveal style="margin-top:12px;">
+      <article class="prog-card">
+        <div class="media ph green">PHOTO · Green corridor, low-carbon logistics</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Green &amp; Low-Carbon Trade</h3>
+          <div class="desc">Decarbonising trade infrastructure and building Africa's low-carbon export advantage.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+
+      <article class="prog-card">
+        <div class="media ph">PHOTO · Women traders cooperative, market</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Resilient &amp; Inclusive Trade</h3>
+          <div class="desc">Women, youth, and SMEs at the centre of cross-border value chains — not the edge.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+
+      <article class="prog-card">
+        <div class="media ph">PHOTO · Woman entrepreneur, West Africa market</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Making Trade Work for Women</h3>
+          <div class="desc">A West Africa programme focused on the trade barriers that disproportionately hold women back.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+
+      <article class="prog-card">
+        <div class="media ph dark">PHOTO · Fisheries, Berbera fish market, boats</div>
+        <div class="body">
+          <div class="eyebrow-tiny">How We Work</div>
+          <h3>Women &amp; Youth in Fisheries</h3>
+          <div class="desc">Economic empowerment in coastal fisheries — value chains, cold storage, market access.</div>
+          <div class="more">Find out more</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="see-all">
+      <a class="cta-ghost on-light" href="pages/programme-areas.html" style="font-weight:700;">All programme areas →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5 — IMPACT (stories grid, on blue)
+     ============================================================ -->
+<section class="impact">
+  <div class="container-wide">
+    <div class="header" data-reveal>
+      <div>
+        <span class="eyebrow on-dark">05 · Impact</span>
+        <h2 style="margin-top:18px">Stories from the<br><span class="hl">corridor</span>.</h2>
+      </div>
+      <a class="cta-primary" href="pages/impact-stories.html">All 120+ stories →</a>
+    </div>
+
+    <div class="stories" data-reveal>
+      <article class="story-card featured">
+        <div class="media ph dark">PHOTO · Tema Port aerial · 16:10</div>
+        <div class="body">
+          <div class="tag">Physical Connectivity</div>
+          <h3>Tema Port's quiet revolution: from 14 days to 36 hours.</h3>
+          <div class="meta">
+            <span>GHANA · 2025</span>
+            <span>12 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="story-card">
+        <div class="media ph green">PHOTO · Women coffee cooperative · Uganda</div>
+        <div class="body">
+          <div class="tag">Inclusive Trade</div>
+          <h3>The cooperative that doubled women's coffee earnings.</h3>
+          <div class="meta">
+            <span>UGANDA · 2024</span>
+            <span>8 min</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="story-card">
+        <div class="media ph">PHOTO · Pharma standards lab · East Africa</div>
+        <div class="body">
+          <div class="tag">Quality &amp; Value</div>
+          <h3>How harmonised pharma standards halved compliance time.</h3>
+          <div class="meta">
+            <span>EAC · 2024</span>
+            <span>9 min</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="footer-row">
+      <span style="font-size:18px; opacity:0.9;">Featured in: <strong>Bloomberg · Devex · The Africa Report · IFC Insights</strong></span>
+      <a href="pages/news-room.html" style="font-size:13px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--tma-yellow); border-bottom:2px solid currentColor; padding-bottom:4px;">News room →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 6 — OUR STORY (timeline)
+     ============================================================ -->
+<section class="story">
+  <div class="container-wide">
+    <div class="header" data-reveal>
+      <div>
+        <span class="eyebrow">06 · Our Story</span>
+        <h2 style="margin-top:18px">From East Africa<br>to a <span class="hl">continental movement</span>.</h2>
+      </div>
+      <p class="lede">Founded in 2010 to accelerate trade in the East African Community, TMA now spans 17 countries — and our 2023–2030 strategy is just getting started.</p>
+    </div>
+
+    <div class="timeline" data-reveal>
+      <div class="track"></div>
+      <div class="timeline-grid">
+        <div class="milestone">
+          <div class="year">2010</div>
+          <div class="phase">TMA 1.0 · Foundation</div>
+          <div class="desc">TradeMark East Africa established as the aid-for-trade vehicle for the East African Community.</div>
+        </div>
+        <div class="milestone">
+          <div class="year">2018</div>
+          <div class="phase">TMA 2.0 · Expansion</div>
+          <div class="desc">Operations expand across the Horn of Africa. First one-stop border posts go live; Mombasa dwell time begins to drop.</div>
+        </div>
+        <div class="milestone">
+          <div class="year">2023</div>
+          <div class="phase">TMA 3.0 · Continental</div>
+          <div class="desc">Rebrand to TradeMark Africa, West Africa launch in Ghana, Trade Catalyst Africa stood up as catalytic finance arm.</div>
+        </div>
+        <div class="milestone">
+          <div class="year">2030</div>
+          <div class="phase">TMA 4.0 · The horizon</div>
+          <div class="desc">Strategy 2023–2030: $1.3B mobilised, 17 countries active, low-carbon corridors live, and the AfCFTA fully operational.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:64px; display:flex; gap:14px;">
+      <a class="cta-primary" href="pages/about-us.html">About TradeMark Africa →</a>
+      <a class="cta-ghost on-light" href="pages/theory-of-change.html">Our Theory of Change</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+
+  <!-- Donor strip (brand-mandatory) -->
+  <div class="donor-strip">
+    <div class="container-wide">
+      <div class="label">Funded by</div>
+      <div class="logos">
+        <span class="logo-ph">European Union</span>
+        <span class="logo-ph">FCDO</span>
+        <span class="logo-ph">USAID</span>
+        <span class="logo-ph">Denmark</span>
+        <span class="logo-ph">Sweden</span>
+        <span class="logo-ph">Netherlands</span>
+        <span class="logo-ph">Norway</span>
+        <span class="logo-ph">Canada</span>
+        <span class="logo-ph">Belgium</span>
+        <span class="logo-ph">Ireland</span>
+        <span class="logo-ph">Finland</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter band -->
+  <div class="newsletter-band">
+    <div class="container-wide">
+      <div class="row">
+        <h3>One email. Every fortnight.<br><span style="background:linear-gradient(transparent 58%, var(--tma-yellow) 58% 92%, transparent 92%); padding:0 0.08em;">Africa, trading.</span></h3>
+        <form onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ Subscribed';">
+          <input type="email" placeholder="your@email.org" required>
+          <button type="submit">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4-column footer -->
+  <div class="footer-cols">
+    <div class="container-wide">
+      <div class="grid">
+        <div class="brand-col">
+          <a href="index.html" class="brand">
+            <span class="brand-mark" style="background:var(--tma-yellow); color:var(--tma-blue);">T</span>
+            <span style="color:#fff;">TRADEMARK AFRICA</span>
+          </a>
+          <p>Growing prosperity through trade — across all of Africa. Founded 2010, headquartered in Nairobi, operating in 17 countries.</p>
+          <div class="socials">
+            <span>X</span><span>in</span><span>YT</span><span>IG</span>
+          </div>
+        </div>
+
+        <div>
+          <h5>Explore</h5>
+          <ul>
+            <li><a href="pages/about-us.html">About Us</a></li>
+            <li><a href="pages/impact.html">Impact</a></li>
+            <li><a href="pages/our-work.html">Our Work</a></li>
+            <li><a href="pages/resources.html">Resources</a></li>
+            <li><a href="pages/news-room.html">News Room</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5>Engage</h5>
+          <ul>
+            <li><a href="pages/contact-us.html">Contact Us</a></li>
+            <li><a href="pages/careers.html">Careers</a></li>
+            <li><a href="pages/procurement.html">Procurement</a></li>
+            <li><a href="pages/faqs.html">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5>Governance</h5>
+          <ul>
+            <li><a href="pages/governance.html">Overview</a></li>
+            <li><a href="pages/board-of-directors.html">Board of Directors</a></li>
+            <li><a href="pages/senior-management.html">Senior Management</a></li>
+            <li><a href="pages/council-members.html">Council Members</a></li>
+            <li><a href="pages/national-oversight-committees.html">National Oversight Committees</a></li>
+            <li><a href="pages/whistleblowing.html">Whistleblowing</a></li>
+            <li><a href="pages/equal-opportunity.html">Equal Opportunity</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5>Utility</h5>
+          <ul>
+            <li><a href="pages/newsletter.html">Newsletter</a></li>
+            <li><a href="pages/sitemap.html">Sitemap</a></li>
+            <li><a href="pages/privacy.html">Privacy Policy</a></li>
+            <li><a href="pages/terms.html">Terms of Use</a></li>
+            <li><a href="pages/accessibility.html">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 TradeMark Africa · All rights reserved</span>
+        <span>EN · FR · PT</span>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+// TMA homepage interactions — auto-advance carousel + smooth scroll + nav
+
+(() => {
+  /* ===== HERO CAROUSEL ============================================== */
+  const slides = document.querySelectorAll('[data-slide]');
+  const dots = document.querySelectorAll('[data-dot]');
+  const counter = document.querySelector('[data-slide-counter]');
+  const total = slides.length;
+  let current = 0;
+  let timer = null;
+  let paused = false;
+
+  function show(i) {
+    current = (i + total) % total;
+    slides.forEach((s, idx) => s.classList.toggle('is-active', idx === current));
+    dots.forEach((d, idx) => d.classList.toggle('is-active', idx === current));
+    if (counter) counter.textContent =
+      String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+  }
+
+  function next() { show(current + 1); }
+
+  function start() {
+    stop();
+    if (paused) return;
+    timer = setInterval(next, 7000);
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+  dots.forEach((d, i) => d.addEventListener('click', () => { show(i); start(); }));
+
+  const pauseBtn = document.querySelector('[data-pause]');
+  if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+      paused = !paused;
+      pauseBtn.setAttribute('aria-pressed', String(paused));
+      pauseBtn.querySelector('.pause-icon').textContent = paused ? '▶' : '❚❚';
+      pauseBtn.querySelector('.pause-text').textContent = paused ? 'Play' : 'Pause';
+      if (paused) stop(); else start();
+    });
+  }
+
+  if (slides.length) { show(0); start(); }
+
+  /* ===== HERO SPLASH FADE ========================================== */
+  const splash = document.querySelector('[data-splash]');
+  if (splash) {
+    setTimeout(() => splash.classList.add('is-gone'), 2400);
+  }
+
+  /* ===== KEY NUMBERS COUNTERS (animate on scroll) =================== */
+  const counters = document.querySelectorAll('[data-count]');
+  const seen = new WeakSet();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting || seen.has(e.target)) return;
+      seen.add(e.target);
+      const target = parseFloat(e.target.dataset.count);
+      const prefix = e.target.dataset.prefix || '';
+      const suffix = e.target.dataset.suffix || '';
+      const decimals = parseInt(e.target.dataset.decimals || '0', 10);
+      const duration = 1400;
+      const start = performance.now();
+      const startVal = 0;
+      function step(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = startVal + (target - startVal) * eased;
+        e.target.textContent = prefix + val.toFixed(decimals) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.35 });
+  counters.forEach(c => io.observe(c));
+
+  /* ===== REVEAL ON SCROLL =========================================== */
+  const reveals = document.querySelectorAll('[data-reveal]');
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-revealed');
+        ro.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(r => ro.observe(r));
+
+  /* ===== NAV: SHRINK ON SCROLL ====================================== */
+  const header = document.querySelector('[data-header]');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 80);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ===== MEGA-MENU HOVER (with delay) =============================== */
+  document.querySelectorAll('[data-menu]').forEach(item => {
+    let openT = null, closeT = null;
+    const panel = item.querySelector('[data-panel]');
+    if (!panel) return;
+    item.addEventListener('mouseenter', () => {
+      clearTimeout(closeT);
+      openT = setTimeout(() => item.classList.add('is-open'), 60);
+    });
+    item.addEventListener('mouseleave', () => {
+      clearTimeout(openT);
+      closeT = setTimeout(() => item.classList.remove('is-open'), 180);
+    });
+  });
+})();
+
+</script>
+</body>
+</html>
