@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TradeMark Africa — Growing Prosperity Through Trade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+<style>
+:root {
+  --tma-blue: #003b71;
+  --tma-blue-deep: #002048;
+  --tma-green: #70be5c;
+  --tma-green-deep: #2e6b1c;
+  --tma-yellow: #f0ea46;
+  --tma-yellow-deep: #c4b81d;
+  --tma-red: #ef4846;
+  --tma-red-deep: #b1342c;
+
+  --paper: #ffffff;
+  --bone: #fbf8f1;
+  --cream: #f4eedd;
+  --rule: rgba(0, 59, 113, 0.14);
+
+  --ink: #0a1424;
+  --ink-soft: rgba(10, 20, 36, 0.62);
+  --ink-mute: rgba(10, 20, 36, 0.42);
+
+  --font: "Montserrat", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  --s-1: 8px; --s-2: 12px; --s-3: 16px; --s-4: 24px;
+  --s-5: 32px; --s-6: 48px; --s-7: 64px; --s-8: 96px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { font-family: var(--font); font-size: 16px; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+body { font-weight: 400; line-height: 1.55; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; transition: color .2s var(--ease); }
+button { font-family: inherit; cursor: pointer; border: 0; background: transparent; color: inherit; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+h1, h2, h3 { font-family: var(--font); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; margin: 0; color: var(--ink); }
+h1 { font-size: clamp(56px, 7vw, 100px); }
+h2 { font-size: clamp(40px, 4.5vw, 68px); }
+h3 { font-size: clamp(22px, 2vw, 32px); line-height: 1.18; }
+p { margin: 0; }
+em { font-style: normal; color: var(--tma-red); }
+
+.container { max-width: 1480px; margin: 0 auto; padding: 0 var(--s-6); }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft);
+}
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tma-green); }
+.eyebrow.red::before { background: var(--tma-red); }
+.eyebrow.yellow::before { background: var(--tma-yellow-deep); }
+.eyebrow.blue::before { background: var(--tma-blue); }
+.eyebrow.on-dark { color: rgba(255,255,255,0.78); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 26px; border-radius: 999px;
+  font-weight: 600; font-size: 13px; letter-spacing: 0.04em;
+  transition: background .25s var(--ease), color .25s var(--ease), transform .15s var(--ease);
+}
+.btn-primary { background: var(--tma-red); color: #fff; }
+.btn-primary:hover { background: var(--tma-blue); transform: translateY(-1px); }
+.btn-secondary { background: var(--tma-blue); color: var(--tma-yellow); }
+.btn-secondary:hover { background: var(--tma-blue-deep); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); padding: 12.5px 24.5px; }
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+.btn-ghost.on-dark { color: #fff; border-color: rgba(255,255,255,0.45); }
+.btn-ghost.on-dark:hover { background: #fff; color: var(--tma-blue); }
+
+.hl { background: linear-gradient(transparent 58%, var(--tma-yellow) 58% 92%, transparent 92%); padding: 0 0.1em; }
+
+/* ============================================================
+   MEGA-MENU NAV (Gates Foundation-style)
+   ============================================================ */
+.topnav {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+.topnav .row {
+  max-width: 1560px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px var(--s-6);
+}
+.topnav .brand {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font); font-weight: 800;
+  font-size: 16px; letter-spacing: 0.04em;
+  color: var(--tma-blue);
+}
+.topnav .brand .mark {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--tma-blue); color: var(--tma-yellow);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px;
+}
+.nav-list { display: flex; gap: 4px; align-items: center; }
+.nav-list > li { position: static; }
+.nav-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 12px 18px; border-radius: 8px;
+  font-size: 14px; font-weight: 600;
+  color: var(--ink); transition: color .2s, background .2s;
+}
+.nav-link .caret { font-size: 9px; opacity: 0.5; transition: transform .25s var(--ease); }
+.nav-link:hover { color: var(--tma-blue); background: var(--bone); }
+.nav-list > li.is-open > .nav-link { color: var(--tma-blue); background: var(--bone); }
+.nav-list > li.is-open .caret { transform: rotate(180deg); opacity: 1; }
+.nav-list > li.is-active > .nav-link { color: var(--tma-red); }
+
+/* Full-width mega panel */
+.mega-panel {
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  box-shadow: 0 16px 32px rgba(0,59,113,0.08);
+  opacity: 0; visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity .2s, transform .25s var(--ease), visibility .2s;
+  z-index: 30;
+}
+.nav-list > li.is-open .mega-panel { opacity: 1; visibility: visible; transform: translateY(0); }
+.mega-inner {
+  max-width: 1560px; margin: 0 auto;
+  padding: 48px var(--s-6);
+  display: grid; grid-template-columns: 1fr 2.4fr; gap: 64px;
+}
+.mega-intro h3 {
+  font-size: 28px; font-weight: 700; line-height: 1.2;
+  color: var(--tma-blue); margin-bottom: 14px;
+}
+.mega-intro p {
+  font-size: 14px; line-height: 1.6; color: var(--ink-soft);
+  margin-bottom: 20px;
+}
+.mega-intro .all-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--tma-red);
+  border-bottom: 2px solid var(--tma-yellow); padding-bottom: 3px;
+}
+.mega-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 40px; }
+.mega-col h5 {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink-mute);
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.mega-col ul li { margin-bottom: 10px; }
+.mega-col a {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 12px; border-radius: 8px;
+  font-size: 14px; font-weight: 500; color: var(--ink);
+  line-height: 1.4; transition: background .15s, color .15s;
+}
+.mega-col a:hover { background: var(--bone); color: var(--tma-blue); }
+.mega-col a .ic { width: 22px; height: 22px; flex-shrink: 0; color: var(--tma-blue); }
+.mega-col a:hover .ic { color: var(--tma-red); }
+.mega-col a .lbl { display: flex; flex-direction: column; gap: 2px; }
+.mega-col a .sub { font-size: 11px; font-weight: 500; color: var(--ink-mute); line-height: 1.4; }
+
+.nav-tools { display: inline-flex; align-items: center; gap: 10px; }
+.nav-tools .icon-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--rule);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--ink);
+}
+.nav-tools .icon-btn:hover { background: var(--bone); }
+.nav-tools .cta {
+  background: var(--tma-red); color: #fff;
+  padding: 11px 20px; font-size: 13px; font-weight: 600;
+  border-radius: 999px;
+}
+.nav-tools .cta:hover { background: var(--tma-blue); }
+
+/* ============================================================
+   FULL-SCREEN VIDEO HERO
+   ============================================================ */
+.video-hero {
+  position: relative; height: 100vh; min-height: 600px;
+  overflow: hidden; background: #000; color: #fff;
+}
+.video-hero video {
+  position: absolute; top: 50%; left: 50%;
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+.video-hero .overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(0,32,72,0.20) 0%, rgba(0,32,72,0.05) 30%, rgba(0,32,72,0.85) 100%);
+}
+.video-hero .content {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 0 var(--s-6) 96px;
+  z-index: 3;
+}
+.video-hero .content .inner {
+  max-width: 1480px; margin: 0 auto;
+}
+.video-hero h1 {
+  font-size: clamp(48px, 6.5vw, 104px);
+  color: #fff; line-height: 1.0; max-width: 1100px;
+}
+.video-hero h1 em { color: var(--tma-green); }
+.video-hero .actions { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; }
+.video-hero .scroll-cue {
+  position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%);
+  z-index: 3;
+  font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+  color: rgba(255,255,255,0.65); font-weight: 600;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.video-hero .scroll-cue::after {
+  content: ""; width: 1px; height: 28px; background: rgba(255,255,255,0.5);
+}
+
+/* ============================================================
+   NUMBERS — 6 cards alternating blue/green (matches reference)
+   ============================================================ */
+.home-numbers { padding: var(--s-8) 0; background: var(--paper); }
+.home-numbers .head { text-align: center; margin-bottom: var(--s-6); }
+.home-numbers .head h2 {
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 700; color: var(--tma-blue);
+}
+.home-numbers .head .lede {
+  font-size: 17px; line-height: 1.55; color: var(--ink-soft);
+  max-width: 640px; margin: 18px auto 0;
+}
+.home-numbers .grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+}
+.home-numbers .n {
+  border-radius: 16px; padding: 32px 30px;
+  display: flex; flex-direction: column; gap: 16px;
+  min-height: 280px;
+}
+.home-numbers .n.blue { background: var(--tma-blue); color: #fff; }
+.home-numbers .n.green { background: var(--tma-green); color: var(--tma-blue); }
+.home-numbers .n .icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.15);
+}
+.home-numbers .n.green .icon { background: rgba(0,59,113,0.12); }
+.home-numbers .n .icon svg { width: 22px; height: 22px; }
+.home-numbers .n .v {
+  font-size: clamp(48px, 4.5vw, 64px);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 0.9;
+}
+.home-numbers .n.blue .v { color: #fff; }
+.home-numbers .n.green .v { color: var(--tma-blue); }
+.home-numbers .n .l { font-size: 14px; line-height: 1.5; font-weight: 500; }
+.home-numbers .n.blue .l { color: rgba(255,255,255,0.92); }
+.home-numbers .n .l b { font-weight: 700; }
+.home-numbers .n .src {
+  font-size: 12px; font-style: italic; opacity: 0.8;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.25);
+}
+.home-numbers .n.green .src { border-top-color: rgba(0,59,113,0.25); }
+
+/* ============================================================
+   PROGRAMME AREAS — 6 image cards with icons
+   ============================================================ */
+.home-programmes { padding: var(--s-8) 0; background: var(--bone); }
+.home-programmes .head { text-align: center; margin-bottom: var(--s-6); }
+.home-programmes .head h2 {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 700; color: var(--tma-blue);
+}
+.home-programmes .head h2 em {
+  color: var(--tma-red); position: relative;
+}
+.home-programmes .head h2 em::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -4px;
+  height: 3px; background: var(--tma-red); border-radius: 2px;
+}
+.home-programmes .head .lede {
+  font-size: 17px; line-height: 1.55; color: var(--ink-soft);
+  max-width: 640px; margin: 18px auto 0;
+}
+.prog-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+}
+.prog-card {
+  position: relative; overflow: hidden; border-radius: 20px;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  background: var(--tma-blue);
+  transition: transform .3s var(--ease);
+}
+.prog-card:hover { transform: translateY(-4px); }
+.prog-card .photo {
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0.04) 0 14px,
+      rgba(255,255,255,0.07) 14px 28px),
+    var(--tma-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font); font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); padding: 16px; text-align: center;
+  font-weight: 500;
+}
+.prog-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(0,59,113,0) 0%, rgba(0,59,113,0.30) 50%, rgba(0,32,72,0.92) 100%);
+}
+.prog-card .body {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 28px;
+  z-index: 2;
+  color: #fff;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.prog-card .ic {
+  width: 56px; height: 56px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff; margin-bottom: 4px;
+}
+.prog-card .ic svg { width: 48px; height: 48px; }
+.prog-card h3 {
+  font-size: 22px; font-weight: 700; line-height: 1.2;
+  color: #fff;
+}
+.prog-card .learn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600;
+  color: var(--tma-red);
+  transition: gap .25s var(--ease);
+}
+.prog-card .learn::after { content: "→"; }
+.prog-card:hover .learn { gap: 14px; }
+
+/* ============================================================
+   WHERE WE WORK — Africa map with region grouping
+   ============================================================ */
+.where-we-work {
+  padding: var(--s-8) 0;
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+}
+.where-we-work .head { text-align: center; margin-bottom: var(--s-6); }
+.where-we-work .head h2 {
+  font-size: clamp(40px, 5vw, 64px); font-weight: 700; color: var(--tma-blue);
+}
+.where-we-work .head h2 em { color: var(--tma-red); }
+.where-we-work .head .lede {
+  font-size: 17px; line-height: 1.55; color: var(--ink-soft);
+  max-width: 700px; margin: 18px auto 0;
+}
+.www-layout {
+  display: grid; grid-template-columns: 0.7fr 1.5fr 1fr; gap: var(--s-5); align-items: center;
+}
+.www-key {
+  display: flex; flex-direction: column; gap: 14px;
+}
+.www-key h4 {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-mute);
+  margin: 0 0 4px;
+}
+.www-key-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: var(--bone);
+  border-radius: 10px;
+  border-left: 4px solid;
+  cursor: pointer;
+  transition: background .2s;
+}
+.www-key-item:hover, .www-key-item.is-active { background: var(--cream); }
+.www-key-item.east     { border-color: var(--tma-green); }
+.www-key-item.horn     { border-color: var(--tma-red); }
+.www-key-item.southern { border-color: var(--tma-yellow-deep); }
+.www-key-item.west     { border-color: var(--tma-blue); }
+.www-key-item .swatch {
+  width: 18px; height: 18px; border-radius: 4px;
+  flex-shrink: 0;
+}
+.www-key-item.east     .swatch { background: var(--tma-green); }
+.www-key-item.horn     .swatch { background: var(--tma-red); }
+.www-key-item.southern .swatch { background: var(--tma-yellow-deep); }
+.www-key-item.west     .swatch { background: var(--tma-blue); }
+.www-key-item .meta {
+  display: flex; flex-direction: column; gap: 2px;
+  font-size: 13px;
+}
+.www-key-item .name {
+  font-weight: 700; color: var(--tma-blue);
+  letter-spacing: 0.02em;
+}
+.www-key-item .count {
+  font-size: 11px; color: var(--ink-mute); font-weight: 600;
+}
+.www-map {
+  background: var(--bone); border: 1px solid var(--rule);
+  border-radius: 20px; padding: 32px; aspect-ratio: 1 / 1.05;
+  position: relative;
+}
+.www-map svg { width: 100%; height: 100%; display: block; }
+.www-map .africa-bg { fill: rgba(0, 59, 113, 0.06); stroke: rgba(0, 59, 113, 0.16); stroke-width: 0.8; }
+.www-map .country { stroke: #fff; stroke-width: 0.6; cursor: pointer; transition: opacity .2s; fill: rgba(0,59,113,0.10); }
+.www-map .country.east     { fill: var(--tma-green); }
+.www-map .country.horn     { fill: var(--tma-red); }
+.www-map .country.southern { fill: var(--tma-yellow-deep); }
+.www-map .country.west     { fill: var(--tma-blue); }
+.www-map .country.other    { fill: rgba(0,59,113,0.08); stroke: rgba(0,59,113,0.18); cursor: default; }
+.www-map .country:hover:not(.other) { opacity: 0.82; }
+.www-map .country.is-dim:not(.other) { opacity: 0.20; }
+.www-map .clabel { font-family: var(--font); font-size: 9px; font-weight: 600; fill: #fff; text-anchor: middle; pointer-events: none; }
+.www-map .tip {
+  position: absolute; pointer-events: none;
+  background: var(--tma-blue); color: #fff;
+  padding: 8px 12px; border-radius: 8px;
+  font-size: 12px; font-weight: 600;
+  transform: translate(-50%, -110%);
+  opacity: 0; transition: opacity .15s; z-index: 5;
+}
+.www-map .tip.show { opacity: 1; }
+
+.www-regions { display: flex; flex-direction: column; gap: 10px; }
+.www-stats {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.www-stat {
+  background: var(--bone);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.www-stat .ic {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--tma-blue); color: var(--tma-yellow);
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.www-stat:nth-child(2) .ic { background: var(--tma-green); color: var(--tma-blue); }
+.www-stat:nth-child(3) .ic { background: var(--tma-red); color: #fff; }
+.www-stat:nth-child(4) .ic { background: var(--tma-yellow); color: var(--tma-blue); }
+.www-stat .ic svg { width: 18px; height: 18px; }
+.www-stat .body { display: flex; flex-direction: column; gap: 2px; }
+.www-stat .v {
+  font-family: var(--font); font-weight: 800;
+  font-size: 22px; letter-spacing: -0.025em; line-height: 1; color: var(--tma-blue);
+}
+.www-stat .l {
+  font-size: 11px; font-weight: 600; color: var(--ink-soft); line-height: 1.3;
+}
+.www-explore {
+  margin-top: 4px;
+  background: var(--tma-blue); color: var(--tma-yellow);
+  padding: 14px 16px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.www-explore::after { content: "→"; font-size: 14px; }
+.www-region {
+  border-left: 4px solid;
+  padding: 14px 18px;
+  background: var(--bone);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.www-region.east     { border-color: var(--tma-green); }
+.www-region.horn     { border-color: var(--tma-red); }
+.www-region.southern { border-color: var(--tma-yellow-deep); }
+.www-region.west     { border-color: var(--tma-blue); }
+.www-region:hover, .www-region.is-active { background: var(--cream); }
+.www-region .name {
+  font-size: 14px; font-weight: 700; color: var(--tma-blue);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.www-region .name .count {
+  font-size: 11px; font-weight: 600; color: var(--ink-mute);
+  letter-spacing: 0.1em;
+}
+.www-region .countries {
+  margin-top: 6px;
+  font-size: 13px; color: var(--ink-soft); line-height: 1.55;
+}
+
+/* ============================================================
+   FOOTER (compact)
+   ============================================================ */
+.site-footer {
+  background: var(--tma-blue-deep); color: rgba(255,255,255,0.85);
+  padding: var(--s-7) 0 var(--s-3);
+}
+.site-footer .grid {
+  display: grid; grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: var(--s-5);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.site-footer .brand-col { display: flex; flex-direction: column; gap: 14px; }
+.site-footer .brand-col .mark { width: 40px; height: 40px; border-radius: 50%; background: var(--tma-yellow); color: var(--tma-blue); display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.site-footer .brand-col p { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.7); max-width: 300px; }
+.site-footer h5 { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tma-green); margin-bottom: 14px; }
+.site-footer ul li { margin-bottom: 10px; }
+.site-footer ul a { font-size: 13px; color: rgba(255,255,255,0.78); }
+.site-footer ul a:hover { color: var(--tma-yellow); }
+.footer-bottom { padding: 16px 0; font-size: 10px; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); display: flex; justify-content: space-between; }
+
+[data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+[data-reveal].is-revealed { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+@media (max-width: 1024px) {
+  .home-numbers .grid, .prog-grid { grid-template-columns: repeat(2, 1fr); }
+  .mega-inner { grid-template-columns: 1fr; gap: 32px; }
+  .mega-cols { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .home-numbers .grid, .prog-grid { grid-template-columns: 1fr; }
+  .nav-list { display: none; }
+  .mega-cols { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     MEGA-MENU NAV (Gates Foundation-style)
+     ============================================================ -->
+<header class="topnav">
+  <div class="row">
+    <a href="#" class="brand">
+      <span class="mark">T</span><span>TRADEMARK AFRICA</span>
+    </a>
+    <ul class="nav-list">
+      <li class="is-active"><a class="nav-link" href="#">Home</a></li>
+
+      <li data-menu>
+        <button class="nav-link">About Us <span class="caret">▼</span></button>
+        <div class="mega-panel">
+          <div class="mega-inner">
+            <div class="mega-intro">
+              <h3>Who we are</h3>
+              <p>An aid-for-trade organisation founded in 2010, working across 17 African countries to grow prosperity through trade.</p>
+              <a class="all-link" href="#">Explore About Us →</a>
+            </div>
+            <div class="mega-cols">
+              <div class="mega-col">
+                <h5>Our story</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="lbl"><span>About TMA</span><span class="sub">Mission, vision, 15-year arc</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l4-4 4 4 4-6 6 8"/><path d="M3 20h18"/></svg><span class="lbl"><span>Theory of Change</span><span class="sub">From inputs to impact</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><span class="lbl"><span>FAQs</span><span class="sub">Common questions</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Governance</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M6 21V9l6-4 6 4v12"/><path d="M9 21v-6h6v6"/></svg><span class="lbl"><span>Overview</span><span class="sub">How TMA is governed</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5"/><path d="M14 19c0-2 2-4 4-4s4 2 4 4"/></svg><span class="lbl"><span>Board of Directors</span><span class="sub">9 non-executive directors</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg><span class="lbl"><span>Senior Management</span><span class="sub">Leadership team</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Partners</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M5 9h14"/><path d="M5 15h14"/></svg><span class="lbl"><span>Donors &amp; Funders</span><span class="sub">EU + 10 partner countries</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/><circle cx="12" cy="12" r="9"/></svg><span class="lbl"><span>Where we work</span><span class="sub">17 countries across Africa</span></span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li data-menu>
+        <button class="nav-link">Impact <span class="caret">▼</span></button>
+        <div class="mega-panel">
+          <div class="mega-inner">
+            <div class="mega-intro">
+              <h3>Our impact</h3>
+              <p>Every figure on our dashboard is traceable to a published independent evaluation.</p>
+              <a class="all-link" href="#">Open the dashboard →</a>
+            </div>
+            <div class="mega-cols">
+              <div class="mega-col">
+                <h5>Results</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V9"/><path d="M15 17v-5"/><path d="M12 17V7"/></svg><span class="lbl"><span>Impact Results</span><span class="sub">Numbers, sources, evaluations</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-7"/></svg><span class="lbl"><span>Impact Overview</span><span class="sub">15-year summary</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Stories</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.4 8.4 0 01-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.4 8.4 0 013.8-.9h.5a8.5 8.5 0 018 8z"/></svg><span class="lbl"><span>Changed Lives</span><span class="sub">Personal impact stories</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span class="lbl"><span>Videos &amp; films</span><span class="sub">Stories in moving picture</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Featured</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span class="lbl"><span>Tema Port story</span><span class="sub">From 14 days to 36 hours</span></span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li data-menu>
+        <button class="nav-link">Our Work <span class="caret">▼</span></button>
+        <div class="mega-panel">
+          <div class="mega-inner">
+            <div class="mega-intro">
+              <h3>Our work</h3>
+              <p>Six programme areas, one theory of change — across infrastructure, policy, digital systems, and the people who move goods.</p>
+              <a class="all-link" href="#">All programmes →</a>
+            </div>
+            <div class="mega-cols">
+              <div class="mega-col">
+                <h5>Programmes</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg><span class="lbl"><span>Trade &amp; Investment</span><span class="sub">Policy &amp; environment</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8"/><path d="M12 18v4"/></svg><span class="lbl"><span>Digital Trade Systems</span><span class="sub">Customs &amp; single windows</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h13l4-4-4-4H3z"/><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/></svg><span class="lbl"><span>Physical Connectivity</span><span class="sub">Ports, borders, roads</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Programmes</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span class="lbl"><span>Quality &amp; Value</span><span class="sub">Standards &amp; certifications</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c-3 5-3 9 0 12 3-3 3-7 0-12z"/><path d="M5 18s2-4 7-4 7 4 7 4"/></svg><span class="lbl"><span>Greening Trade</span><span class="sub">Low-carbon corridors</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><path d="M3 21c0-4 3-6 6-6s6 2 6 6"/><path d="M14 21c0-3 2-5 3-5s4 2 4 5"/></svg><span class="lbl"><span>Resilient &amp; Inclusive</span><span class="sub">Women, youth, SMEs</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Explore</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/></svg><span class="lbl"><span>Africa Map</span><span class="sub">17 country offices</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M9 4v16"/></svg><span class="lbl"><span>Projects Hub</span><span class="sub">Live portfolio</span></span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li data-menu>
+        <button class="nav-link">Resources <span class="caret">▼</span></button>
+        <div class="mega-panel">
+          <div class="mega-inner">
+            <div class="mega-intro">
+              <h3>Library</h3>
+              <p>Publications, evaluations, briefs, and our 2023&nbsp;–&nbsp;2030 strategy.</p>
+              <a class="all-link" href="#">Open the library →</a>
+            </div>
+            <div class="mega-cols">
+              <div class="mega-col">
+                <h5>Documents</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg><span class="lbl"><span>Publications &amp; Briefs</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/></svg><span class="lbl"><span>Annual Reports</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Research</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lbl"><span>Evaluations</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 17l5-5 4 4 5-7"/></svg><span class="lbl"><span>Strategy 2023 – 2030</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Brand</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.1 6.3L22 9.3l-5 4.9 1.2 6.9L12 18l-6.2 3.1L7 14.2l-5-4.9 6.9-1z"/></svg><span class="lbl"><span>Branding Guidelines</span></span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li data-menu>
+        <button class="nav-link">News Room <span class="caret">▼</span></button>
+        <div class="mega-panel">
+          <div class="mega-inner">
+            <div class="mega-intro">
+              <h3>News Room</h3>
+              <p>Press releases, trade news, blog posts, podcasts, films, and events from across the continent.</p>
+              <a class="all-link" href="#">All news →</a>
+            </div>
+            <div class="mega-cols">
+              <div class="mega-col">
+                <h5>Press</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12a2 2 0 012 2v12a2 2 0 002 2 2 2 0 002-2V9h-4"/><path d="M4 4v14a2 2 0 002 2h12"/></svg><span class="lbl"><span>Press Releases</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span class="lbl"><span>Trade News Round-Up</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Media</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg><span class="lbl"><span>Podcasts &amp; Films</span></span></a></li>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 4v16"/></svg><span class="lbl"><span>Blog</span></span></a></li>
+                </ul>
+              </div>
+              <div class="mega-col">
+                <h5>Events</h5>
+                <ul>
+                  <li><a href="#"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M16 2v4"/></svg><span class="lbl"><span>Upcoming Events</span></span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="nav-tools">
+      <button class="icon-btn" aria-label="Search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+      <a class="cta" href="#">Subscribe</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     FULL-SCREEN VIDEO HERO
+     ============================================================ -->
+<section class="video-hero">
+  <video autoplay muted loop playsinline preload="auto">
+    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+  <div class="content">
+    <div class="inner">
+      <h1>Growing Prosperity<br>Through <em>Trade.</em></h1>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">Explore our work →</a>
+        <a class="btn btn-ghost on-dark" href="#">Watch the film</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</section>
+
+<!-- ============================================================
+     NUMBERS — 6 cards (alternating blue/green)
+     ============================================================ -->
+<section class="home-numbers">
+  <div class="container">
+    <div class="head" data-reveal>
+      <h2>TradeMark Africa in <span class="hl">Numbers</span></h2>
+      <p class="lede">Every figure traceable to a published independent evaluation.</p>
+    </div>
+
+    <div class="grid">
+      <div class="n blue" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M9 10c0-1 1-2 3-2s3 1 3 2-1 2-3 2-3 1-3 2 1 2 3 2 3-1 3-2"/></svg></div>
+        <div class="v">$409M</div>
+        <div class="l"><b>In Trade Contracts</b> for grain and pulses signed at a single regional forum in Tanzania in 2024</div>
+        <div class="src">Source: USAID ERRA Report (2023–2024)</div>
+      </div>
+
+      <div class="n green" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8"/><path d="M12 18v4"/><path d="M6 9h12"/><path d="M6 13h8"/></svg></div>
+        <div class="v">100+</div>
+        <div class="l"><b>Trade Systems Digitalised</b> in public and private sector between 2010 and 2024, cutting average transaction costs by 50%</div>
+        <div class="src">Source: EDI Global Independent Evaluation of TMA ICT Projects, 2024</div>
+      </div>
+
+      <div class="n blue" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h13l4-4-4-4H3z"/><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/></svg></div>
+        <div class="v">21</div>
+        <div class="l"><b>Border Posts</b> in Africa modernised to one stop border posts between 2011 to 2024</div>
+        <div class="src">Source: TMA Annual Review Report, 2024</div>
+      </div>
+
+      <div class="n green" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <div class="v">$2B</div>
+        <div class="l"><b>In trade value supported through</b> 74 harmonised EAC Standards including 41 gazetted for edible oils</div>
+        <div class="src">Source: TMA, Annual Review Report, 2024</div>
+      </div>
+
+      <div class="n blue" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5"/><path d="M14 19c0-2 2-4 4-4s4 2 4 4"/></svg></div>
+        <div class="v">50K+</div>
+        <div class="l"><b>Traders Moved</b> to formal trade between 2018 and 2024 via cooperatives against a target of 20,000. 23% increase in incomes</div>
+        <div class="src">Source: Women in Trade End-Term Evaluation, 2024</div>
+      </div>
+
+      <div class="n green" data-reveal>
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M16 12l4 4"/></svg></div>
+        <div class="v">51%</div>
+        <div class="l"><b>Faster Ports</b> with Mombasa port's cargo dwell time cut by more than half, boosting efficiency and flow</div>
+        <div class="src">Source: Northern Corridor Transport Observatory, 2022</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHERE WE WORK — African map with region grouping
+     ============================================================ -->
+<section class="where-we-work">
+  <div class="container">
+    <div class="head" data-reveal>
+      <h2>Where we <em>work</em></h2>
+      <p class="lede">Active in 15 African countries across four regions — focused on high-impact corridors and trade ecosystems that connect Africa to the world.</p>
+    </div>
+
+    <div class="www-layout">
+      <div class="www-key">
+        <h4>Region key</h4>
+        <div class="www-key-item east" data-region="east">
+          <span class="swatch"></span>
+          <span class="meta">
+            <span class="name">East Africa</span>
+            <span class="count">7 countries</span>
+          </span>
+        </div>
+        <div class="www-key-item horn" data-region="horn">
+          <span class="swatch"></span>
+          <span class="meta">
+            <span class="name">Horn of Africa</span>
+            <span class="count">3 countries</span>
+          </span>
+        </div>
+        <div class="www-key-item southern" data-region="southern">
+          <span class="swatch"></span>
+          <span class="meta">
+            <span class="name">Southern Africa</span>
+            <span class="count">3 countries</span>
+          </span>
+        </div>
+        <div class="www-key-item west" data-region="west">
+          <span class="swatch"></span>
+          <span class="meta">
+            <span class="name">West Africa</span>
+            <span class="count">2 countries</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="www-map" id="wwwMap">
+        <svg id="wwwMapSvg" viewBox="0 0 800 820" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="tip" id="wwwTip">—</div>
+      </div>
+
+      <div class="www-regions">
+        <div class="www-stats">
+          <div class="www-stat">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M2 12h20"/><path d="M12 2a15 15 0 010 20"/><path d="M12 2a15 15 0 000 20"/></svg></span>
+            <span class="body"><span class="v">15</span><span class="l">Active countries</span></span>
+          </div>
+          <div class="www-stat">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/></svg></span>
+            <span class="body"><span class="v">4</span><span class="l">Regions covered</span></span>
+          </div>
+          <div class="www-stat">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h13l4-4-4-4H3z"/><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/></svg></span>
+            <span class="body"><span class="v">30+</span><span class="l">Trade corridors</span></span>
+          </div>
+          <div class="www-stat">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 11h18"/><path d="M9 5v14"/><path d="M15 5v14"/></svg></span>
+            <span class="body"><span class="v">21</span><span class="l">One-stop borders</span></span>
+          </div>
+        </div>
+        <a class="www-explore" href="#">Explore countries</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROGRAMME AREAS — 6 image cards with icons
+     ============================================================ -->
+<section class="home-programmes">
+  <div class="container">
+    <div class="head" data-reveal>
+      <h2>Our <em>Portfolios</em> for Growing Prosperity</h2>
+      <p class="lede">Six programme areas working together to grow prosperity through trade across Africa.</p>
+    </div>
+
+    <div class="prog-grid">
+
+      <article class="prog-card" data-reveal>
+        <div class="photo">Photo · Trade &amp; Investment forum</div>
+        <div class="body">
+          <div class="ic">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="20" width="36" height="22" rx="2"/>
+              <path d="M10 20v-4h8v4"/>
+              <path d="M30 20v-4h8v4"/>
+              <path d="M14 42v-10h6v10"/>
+              <path d="M28 42v-10h6v10"/>
+              <circle cx="24" cy="9" r="4"/>
+              <path d="M24 13v7"/>
+            </svg>
+          </div>
+          <h3>Trade &amp; Investment Environment</h3>
+          <a class="learn" href="#">Learn more</a>
+        </div>
+      </article>
+
+      <article class="prog-card" data-reveal>
+        <div class="photo">Photo · Women's cooperative · East Africa</div>
+        <div class="body">
+          <div class="ic">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="24" cy="18" r="6"/>
+              <path d="M14 38c0-6 4-10 10-10s10 4 10 10"/>
+              <path d="M8 42c0-3 3-5 6-5"/>
+              <path d="M40 42c0-3-3-5-6-5"/>
+              <circle cx="11" cy="32" r="3"/>
+              <circle cx="37" cy="32" r="3"/>
+            </svg>
+          </div>
+          <h3>Resilient &amp; Inclusive Trade</h3>
+          <a class="learn" href="#">Learn more</a>
+        </div>
+      </article>
+
+      <article class="prog-card" data-reveal>
+        <div class="photo">Photo · Certified produce, quality lab</div>
+        <div class="body">
+          <div class="ic">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M24 6l5 4h6v6l4 5-4 5v6h-6l-5 4-5-4h-6v-6l-4-5 4-5v-6h6z"/>
+              <path d="M18 24l4 4 8-8"/>
+            </svg>
+          </div>
+          <h3>Quality &amp; Value of Traded Goods</h3>
+          <a class="learn" href="#">Learn more</a>
+        </div>
+      </article>
+
+      <article class="prog-card" data-reveal>
+        <div class="photo">Photo · Single-window terminal, digital trade</div>
+        <div class="body">
+          <div class="ic">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 30h22l6-6-6-6H8z"/>
+              <circle cx="14" cy="30" r="3"/>
+              <circle cx="32" cy="30" r="3"/>
+              <circle cx="36" cy="14" r="4"/>
+              <path d="M36 18v6"/>
+              <path d="M30 14h2"/>
+              <path d="M40 14h2"/>
+            </svg>
+          </div>
+          <h3>Digital Trade Systems</h3>
+          <a class="learn" href="#">Learn more</a>
+        </div>
+      </article>
+
+      <article class="prog-card" data-reveal>
+        <div class="photo">Photo · Port, border post, road corridor</div>
+        <div class="body">
+          <div class="ic">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="6" y="22" width="14" height="10" rx="1"/>
+              <path d="M6 32h36"/>
+              <rect x="22" y="18" width="12" height="14" rx="1"/>
+              <path d="M28 14v4"/>
+              <circle cx="28" cy="10" r="2"/>
+              <path d="M36 28h8"/>
+              <circle cx="11" cy="35" r="2"/>
+              <circle cx="29" cy="35" r="2"/>
+              <circle cx="40" cy="35" r="2"/>
+            </svg>
+          </div>
+          <h3>Physical Connectivity: Ports, Borders, Roads</h3>
+          <a class="learn" href="#">Learn more</a>
+        </div>
+      </article>
+
+      <article class="prog-card" data-reveal>
+        <div class="photo">Photo · Green corridor, wind, low-carbon logistics</div>
+        <div class="body">
+          <div class="ic">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M24 6c-6 10-6 18 0 24 6-6 6-14 0-24z"/>
+              <path d="M10 36s4-8 14-8 14 8 14 8"/>
+              <path d="M24 30v12"/>
+              <path d="M14 42h20"/>
+            </svg>
+          </div>
+          <h3>Greening Trade</h3>
+          <a class="learn" href="#">Learn more</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER (compact)
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="grid">
+      <div class="brand-col">
+        <div class="mark">T</div>
+        <p>TradeMark Africa — the aid-for-trade organisation working across 17 African countries.<br>Founded 2010 · Headquartered in Nairobi.</p>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Impact</a></li>
+          <li><a href="#">Our Work</a></li>
+          <li><a href="#">Resources</a></li>
+          <li><a href="#">News Room</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Engage</h5>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Procurement</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Governance</h5>
+        <ul>
+          <li><a href="#">Board of Directors</a></li>
+          <li><a href="#">Senior Management</a></li>
+          <li><a href="#">Council Members</a></li>
+          <li><a href="#">Whistleblowing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Utility</h5>
+        <ul>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TradeMark Africa · All rights reserved</span>
+      <span>EN · FR · PT</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // Mega menu — hover + click to open
+  const menus = document.querySelectorAll('[data-menu]');
+  let openTimer = null, closeTimer = null;
+  function closeAll() {
+    menus.forEach(m => m.classList.remove('is-open'));
+  }
+  menus.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      openTimer = setTimeout(() => {
+        closeAll();
+        item.classList.add('is-open');
+      }, 80);
+    });
+    item.addEventListener('mouseleave', () => {
+      clearTimeout(openTimer);
+      closeTimer = setTimeout(() => item.classList.remove('is-open'), 180);
+    });
+    const btn = item.querySelector('.nav-link');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        if (btn.tagName === 'BUTTON') {
+          e.preventDefault();
+          const wasOpen = item.classList.contains('is-open');
+          closeAll();
+          if (!wasOpen) item.classList.add('is-open');
+        }
+      });
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-menu]')) closeAll();
+  });
+
+  // Where We Work — real African map rendered with D3 + TopoJSON
+  const wwwMap = document.getElementById('wwwMap');
+  const wwwSvg = document.getElementById('wwwMapSvg');
+  if (wwwMap && wwwSvg && window.d3 && window.topojson) {
+    const tip = document.getElementById('wwwTip');
+    const TMA = {
+      // East Africa
+      'Kenya': 'east',
+      'Uganda': 'east',
+      'United Republic of Tanzania': 'east', 'Tanzania': 'east',
+      'Rwanda': 'east',
+      'Burundi': 'east',
+      'South Sudan': 'east',
+      'Democratic Republic of the Congo': 'east', 'Dem. Rep. Congo': 'east',
+      // Horn
+      'Ethiopia': 'horn',
+      'Djibouti': 'horn',
+      'Somalia': 'horn', 'Somaliland': 'horn',
+      // Southern
+      'Malawi': 'southern',
+      'Mozambique': 'southern',
+      'Zambia': 'southern',
+      // West
+      'Ghana': 'west',
+      "Côte d'Ivoire": 'west', "Cote d'Ivoire": 'west', 'Ivory Coast': 'west'
+    };
+    const REGION_NAMES = {
+      east: 'East Africa', horn: 'Horn of Africa',
+      southern: 'Southern Africa', west: 'West Africa'
+    };
+
+    // Africa countries — try Africa-only file first, fall back to world-atlas filtered to Africa
+    const AFRICA_COUNTRIES = new Set([
+      'Algeria','Angola','Benin','Botswana','Burkina Faso','Burundi','Cabo Verde','Cameroon',
+      'Central African Republic','Chad','Comoros','Republic of the Congo','Congo',
+      'Democratic Republic of the Congo','Dem. Rep. Congo',"Côte d'Ivoire","Cote d'Ivoire",'Ivory Coast',
+      'Djibouti','Egypt','Equatorial Guinea','Eritrea','Eswatini','Swaziland','Ethiopia','Gabon','Gambia',
+      'Ghana','Guinea','Guinea-Bissau','Kenya','Lesotho','Liberia','Libya','Madagascar','Malawi','Mali',
+      'Mauritania','Mauritius','Morocco','Mozambique','Namibia','Niger','Nigeria','Rwanda',
+      'Sao Tome and Principe','Senegal','Seychelles','Sierra Leone','Somalia','Somaliland',
+      'South Africa','South Sudan','Sudan','United Republic of Tanzania','Tanzania','Togo','Tunisia',
+      'Uganda','Western Sahara','W. Sahara','Zambia','Zimbabwe'
+    ]);
+
+    fetch('https://cdn.jsdelivr.net/gh/leakyMirror/map-of-africa@master/topojson/countries.topo.json')
+      .then(r => { if (!r.ok) throw new Error('fail'); return r.json(); })
+      .then(topo => {
+        const objKey = Object.keys(topo.objects)[0];
+        const geo = topojson.feature(topo, topo.objects[objKey]);
+        renderMap(geo);
+      })
+      .catch(() => {
+        // Fallback: world-atlas — filter to Africa only
+        fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+          .then(r => r.json())
+          .then(topo => {
+            const all = topojson.feature(topo, topo.objects.countries);
+            const africa = {
+              type: 'FeatureCollection',
+              features: all.features.filter(f => {
+                const n = (f.properties && (f.properties.name || f.properties.NAME)) || '';
+                return AFRICA_COUNTRIES.has(n);
+              })
+            };
+            renderMap(africa);
+          });
+      });
+
+    function renderMap(geo) {
+      const W = 800, H = 820;
+      // Filter to Africa for cleaner rendering, but allow neighbours too
+      let features = geo.features;
+      // Try to detect Africa via bounding box of TMA countries
+      const projection = d3.geoMercator().fitSize([W, H], geo);
+      const path = d3.geoPath(projection);
+      const svg = d3.select(wwwSvg);
+      svg.selectAll('*').remove();
+
+      const g = svg.append('g');
+      g.selectAll('path.country')
+        .data(features)
+        .join('path')
+        .attr('d', path)
+        .attr('class', d => {
+          const name = (d.properties && (d.properties.name || d.properties.NAME || d.properties.NAME_LONG)) || '';
+          const r = TMA[name];
+          return 'country' + (r ? ' ' + r : ' other');
+        })
+        .attr('data-country', d => (d.properties && (d.properties.name || d.properties.NAME || d.properties.NAME_LONG)) || '')
+        .attr('data-region', d => {
+          const n = (d.properties && (d.properties.name || d.properties.NAME || d.properties.NAME_LONG)) || '';
+          return TMA[n] || '';
+        });
+
+      attachInteractions();
+    }
+
+    function attachInteractions() {
+      const countries = wwwSvg.querySelectorAll('.country:not(.other)');
+      const regions = document.querySelectorAll('.www-region');
+      function setRegionActive(r) {
+        wwwSvg.querySelectorAll('.country:not(.other)').forEach(c =>
+          c.classList.toggle('is-dim', r && c.getAttribute('data-region') !== r));
+        regions.forEach(reg => reg.classList.toggle('is-active', r && reg.dataset.region === r));
+      }
+      countries.forEach(c => {
+        c.addEventListener('mousemove', e => {
+          const name = c.getAttribute('data-country');
+          const region = c.getAttribute('data-region');
+          tip.innerHTML = '<strong>' + name + '</strong>' + (region ? ' · ' + REGION_NAMES[region] : '');
+          const rect = wwwMap.getBoundingClientRect();
+          tip.style.left = (e.clientX - rect.left) + 'px';
+          tip.style.top = (e.clientY - rect.top - 8) + 'px';
+          tip.classList.add('show');
+        });
+        c.addEventListener('mouseleave', () => tip.classList.remove('show'));
+      });
+      regions.forEach(reg => {
+        reg.addEventListener('mouseenter', () => setRegionActive(reg.dataset.region));
+        reg.addEventListener('mouseleave', () => setRegionActive(null));
+      });
+      // Key items mirror the same behaviour
+      document.querySelectorAll('.www-key-item').forEach(k => {
+        k.addEventListener('mouseenter', () => {
+          setRegionActive(k.dataset.region);
+          k.classList.add('is-active');
+        });
+        k.addEventListener('mouseleave', () => {
+          setRegionActive(null);
+          k.classList.remove('is-active');
+        });
+      });
+    }
+  }
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if (reveals.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-revealed'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => io.observe(r));
+  }
+})();
+</script>
+
+</body>
+</html>
